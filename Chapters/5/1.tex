@@ -1,0 +1,25 @@
+\section{Jazyky a prostředí}
+\label{sec:Chapter51}
+V rámci této práce jsem se pohyboval primárně v prostředí jazyka \textbf{Python}, což je skvělá volba pro rychlé, spolehlivé, nastavitelné a silně modulární nastavení v oblasti strojového učení. S jazykem Python jsme používali nástroje virtuálních prostředí \textit{pip} a \textit{Anaconda}, které spravovaly balíčky jazyka Python pro tuto práci
+
+Pro vývoj byla použita verze Python 3.10 na operačním systému Ubuntu 22.04.03 LTS\footnote{Dlouhodová podpora, ang. Long Time Support.}. Operační systém Ubuntu nebyl první volbou. První volbou bylo prostředí Debian 12. Avšak ukázalo se, že budování prostředí co se týče balíčkovacích kompatibilit mezi verzemi ovladačů, verzemi balíčků pro Python a verzemi cuDNN\footnote{Knihovna zprostředkující jazyk CUDA grafických karet NVIDIA pro účely strojového učení.} bylo co se týče instalace a nastavení nejvíce vyhovující na prostředí Ubuntu, což bylo doporučeno i dokumentací následně zmíněných knihoven (jako je např. TensorFlow).
+
+Toto prostředí nebylo virtualizováno, nebylo využito prostředků jako je např. Docker a tento systém byl uzpůsoben přímo pro využití v analýze dat a strojového učení.
+
+Většina experimentálního trénování proběhla na následujícím hardwaru:
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+Součást & Model \\
+\midrule
+CPU & AMD Ryzen 5 7600 6-core processor \\
+GPU & NVIDIA GTX 1070 Strix 8GB VRAM  \\
+RAM & 32 GB 6000MHz DDR5 \\
+\bottomrule
+\end{tabular}
+\caption{Domácí systém pro trénink}
+\label{fig:wortelus_pc}
+\end{table}
+\endinput

@@ -1,0 +1,84 @@
+\section{Attention U-Net}
+\label{sec:Chapter24}
+
+Vylepšení sítě U-Net o \textbf{pozornostní bloky} či brány (AG, tj. attention gates) bylo představeno v literatuře \cite{attentionunet} roku 2018. Premise pozornostních bloků je zvýšit schopnost sítě se naučit ignorovat irelevantní části vstupního obrazu, zatímco mohou zároveň přidávat na důležitosti jiným částem. Vylepšení pozornostních bloků bylo přidáno do části dekodéru sítě U-Net. Přijímají 2 vstupy, kde jeden z nich je bránový vstup $g$ z předchozího bloku dekodéru a druhý je skokové propojení z odpovídající vrstvy enkodéru $x^l$. 
+
+Aby byla zajištěna kompatibilita, jsou rozměry bránového signálu $g$ a skokového propojení z výstupu relevantního bloku enkodéru $x^l$ přizpůsobeny, obvykle pomocí vrstvy typu max pooling na rozměry bránového signálu $H_g \times W_g \times D_g$ . Prvky jsou sčítány na elementární úrovni a před aplikací koeficientů pozornosti $(\alpha_i)$ jsou zpracovány pomocí ReLU aktivační vrstvy.
+
+\begin{figure}[H]
+\centering
+\definecolor{boxcol}{rgb}{0.7,0.8,1.0}
+\begin{tikzpicture}[
+    box/.style={draw, thick, minimum width=2cm, minimum height=0.75cm, text centered, fill=boxcol, text width=2.1cm},
+    activation/.style={draw, thick, minimum width=1.6cm, minimum height=0.75cm, text centered, fill=white, text width=1.6cm},
+    arrow/.style={->, thick},
+    resampler/.style={
+        matrix of nodes,
+        nodes in empty cells,
+        nodes={draw, minimum size=5mm, inner sep=0pt, outer sep=0pt, fill=gray!30},
+        column sep=-\pgflinewidth,
+        row sep=-\pgflinewidth,
+        fill=white,
+    },
+    shortarrow/.style={->, shorten >=0.35cm},
+]
+  \coordinate (wgp) at (0,4);
+  \coordinate (wxp) at (0,2);
+  \coordinate (plusp) at (2, 3);
+
+  \coordinate (relup) at (4, 3);
+  \coordinate (psip) at (6.75, 3);
+  \coordinate (sigmoidp) at (9.5, 3);
+
+  \coordinate (resamplerp) at (11.75, 3);
+  \coordinate (timesp) at (13.5, 3);
+
+  \node[box] (wg) at (wgp) {$W_g \colon 1\times1\times1$};
+  \draw [arrow] ([xshift=-0.75cm]wg.west) -- (wg.west) node [midway, above] {$g$};
+  \node[below=of wg, yshift=1.0cm] {$F_g \times H_g \times W_g \times D_g$};
+
+  \node[box] (wx) at (wxp) {$W_x \colon 1\times1\times1$};
+  \draw [arrow] ([xshift=-0.75cm]wx.west) -- (wx.west) node [midway, above] {$x^l$};
+  \node[below=of wx, yshift=1.0cm] {$F_l \times H_x \times W_x \times D_x$};
+
+    % koordinát pro vlevo od boxíku
+  \coordinate (xlbranchp) at ([xshift=-0.55cm, yshift=-0.025cm]wx.west);
+  \coordinate (xlbranch_inter_p) at ([yshift=-3cm, xshift=-1.75cm]wg.south);
+
+  \node (plus) at (plusp) {{\Huge $\oplus$}};
+  \draw [arrow] (wg) -| (plus);
+  \draw [arrow] (wx) -| (plus);
+
+  \node[activation] (relu) at (relup) {ReLU};
+  \draw[arrow] (plus) -- (relu);
+  \node[below=of relu, yshift=1.00cm, xshift=0.1cm] {$F_{int} \times H_g \times W_g \times D_g$};
+  
+  \node[box] (psi) at (psip) {$\psi \colon 1\times1\times1$};
+  \draw[arrow] (relu) -- (psi);
+  
+  \node[activation] (sigmoid) at (sigmoidp) {Sigmoid};
+  \draw[arrow] (psi) -- (sigmoid);
+  \node[below=of sigmoid, yshift=1.00cm, xshift=-1.2cm] {$H_g \times W_g \times D_g$};
+
+  \matrix (resampler) [resampler] at (resamplerp) {
+    {} & {} & {} \\
+    {} & {} & {} \\
+    {} & {} & {} \\
+  };
+  \node[above=of resampler, yshift=-1.0cm] {Resampler};
+  \node[below=of resampler, yshift=1.0cm, xshift=0.4cm] {$H_x \times W_x \times D_x$};
+  
+  \draw[arrow] (sigmoid) -- (resampler);
+
+  \node (times) at (timesp) {{\Huge $\otimes$}};
+  \draw [->] (times.east) -- ++(0.5cm,0) node [midway, above] {$\hat{x}^l$};
+  \draw[shortarrow] (resampler) -- (timesp) node[midway, above, xshift=-0.25cm] {$\alpha$};
+  \draw[arrow] (xlbranchp) -| (xlbranch_inter_p) -| (times);
+  
+\end{tikzpicture}
+\caption[Pozornostní blok sítě Attention U-Net]{Pozornostní blok sítě Attention U-Net, kde $g$ je bránový vstup, $x^l$ je vstup z skokového propojení, $\psi$ je konvoluční operace s trénovatelnými parametry. $\hat{x}^l$ je finálně výsledek vzájemného součinu pozornostních koeficientů $\alpha$ a $x^l$. Vytvořeno podle \cite{attentionunet}. }
+\end{figure}
+
+Mechanismus pozornosti funguje tak, že se na kombinované rysy aplikuje sigmoidní aktivace pro generování koeficientů pozornosti (\(\alpha_i\), kde \(\alpha_i \in [0, 1]\)), které účinně škálují vstupní rysy tím, že zvýrazňují oblasti zájmu a potlačují méně relevantní oblasti. Tohoto selektivního zvýraznění je dosaženo prostřednictvím elementárního násobení koeficientů pozornosti s rysy enkodéru, což zajišťuje, že se síť zaměřuje na relevantní informace z první části sítě. Následně jsou výstupy těchto pozornostních bloků aplikovány na vstupy relevantních bloků dekodérů. \cite{attentionunet}.
+
+\endinput

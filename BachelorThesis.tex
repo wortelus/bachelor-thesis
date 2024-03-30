@@ -1,0 +1,131 @@
+% Nejprve uvedeme tridu dokumentu s volbami
+\documentclass[czech,bachelor]{diploma}
+%asmath  pro matrix jsem potreboval
+\usepackage{amsmath}
+% pro a b c enumerate
+\usepackage{enumitem}
+% tikz a barvicky
+\usepackage{float} % pro [H] option u figures
+% \usepackage{subcaption} % pro grid obrazku
+\usepackage{tikz}
+% pro grafy
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+%
+\usetikzlibrary{fit,positioning,matrix}
+\usepackage{xstring}
+% Dalsi doplnujici baliky maker
+\usepackage[autostyle=true,czech=quotes]{csquotes} % korektni sazba uvozovek, podpora pro balik biblatex
+\usepackage[backend=biber, style=iso-numeric, alldates=iso]{biblatex} % bibliografie
+\usepackage{dcolumn} % sloupce tabulky s ciselnymi hodnotami
+\usepackage{subfig} % makra pro "podobrazky" a "podtabulky"
+\usepackage[cpp]{diplomalst}
+
+% Zadame pozadovane vstupy pro generovani titulnich stran.
+\ThesisAuthor{Daniel Slavík}
+
+\ThesisSupervisor{Ing. Tomáš Fabián Ph.D.}
+
+\CzechThesisTitle{Lokalizace klíčových bodů pomocí neuronových sítí}
+
+\EnglishThesisTitle{Keypoint Detection with Neural Networks}
+
+\SubmissionYear{2024}
+
+\ThesisAssignmentFileName{ThesisSpecification_SLA0331_vsboee23037AAD.pdf}
+
+% Pokud nechceme nikomu dekovat makro zapoznamkujeme.
+\Acknowledgement{Rád bych poděkoval panu Ing. Tomáši Fabiánovi, Ph.D. za odbornou pomoc a inspiraci při vytváření této bakalářské práce.}
+
+\CzechAbstract{Cílem této bakalářské práce je }
+
+\CzechKeywords{typografie; \LaTeX; diplomová práce}
+
+\EnglishAbstract{This is English abstract. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Aenean placerat. Vivamus ac leo pretium faucibus. Duis risus. Fusce consectetuer risus a nunc. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. Aliquam erat volutpat. Donec vitae arcu. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Vestibulum fermentum tortor id mi. Etiam bibendum elit eget erat. Pellentesque pretium lectus id turpis. Nulla quis diam.}
+
+\EnglishKeywords{typography; \LaTeX; master thesis}
+
+\AddAcronym{SIFT}{Škálově invariantní transformace charakteristik/rysů, Scale-invariant feature transform}
+\AddAcronym{CNN}{Konvoluční neuronová síť, Convolutional Neural Network}
+\AddAcronym{FCN}{Plně konvoluční síť, Fully Convolutional Network}
+\AddAcronym{DNN}{Hluboká neuronová síť, Deep Neural Network}
+\AddAcronym{PnP}{Perspektiva a bod, Perspective-n-Point}
+\AddAcronym{DoF}{Dimenze svobody, Degrees of Freedom}
+\AddAcronym{DoG}{Rozdíl Gaussiánu, Difference of Gaussian}
+\AddAcronym{PSP}{Schéma pyramidové parsování, Pyramid Scheme Parsing}
+\AddAcronym{HSV}{Odstín Sytost Hodnota, Hue Saturation Value}
+\AddAcronym{STN}{Neuronová síť s prostorovým transformerem, Spatial Transformer Network}
+\AddAcronym{ReLU}{Rektifikovaná lineární jednotka, Rectified Linear Unit}
+\AddAcronym{YOLO}{Podíváš se pouze jednou, You Only Look Once}
+\AddAcronym{JPEG}{Joint Photographic Experts Group}
+\AddAcronym{CSV}{Čárkou oddělené hodnoty, Comma-separated values}
+\AddAcronym{BN}{Dávková normalizace, Batch Normalization}
+\AddAcronym{MSE}{Střední kvadratická chyba, Mean Squared Error}
+\AddAcronym{VRAM}{Video paměť, Video Random Access Memory}
+
+\addbibresource{biblatex.bib}
+
+% Novy druh tabulkoveho sloupce, ve kterem jsou cisla zarovnana podle desetinne carky
+\newcolumntype{d}[1]{D{,}{,}{#1}}
+
+
+% Zacatek dokumentu
+\begin{document}
+
+% Nechame vysazet titulni strany.
+\MakeTitlePages
+
+% Jsou v praci obrazky? Pokud ano vysazime jejich seznam a odstrankujeme.
+% Pokud ne smazeme nasledujici dve makra.
+\listoffigures
+\clearpage
+
+% Jsou v praci tabulky? Pokud ano vysazime jejich seznam a odstrankujeme.
+% Pokud ne smazeme nasledujici dve makra.
+\listoftables
+\clearpage
+
+\hyphenation{TensorFlow}
+
+
+% A nasleduje text zaverecne prace.
+\input{Chapters/1/index}
+\input{Chapters/2/index}
+\input{Chapters/2/1}
+\input{Chapters/2/2}
+\input{Chapters/2/3}
+\input{Chapters/2/4}
+\input{Chapters/2/5}
+\input{Chapters/2/6}
+\input{Chapters/2/7}
+\input{Chapters/2/8}
+\input{Chapters/3/index}
+\input{Chapters/3/1}
+\input{Chapters/4/index}
+\input{Chapters/4/1}
+\input{Chapters/4/2}
+\input{Chapters/4/3}
+\input{Chapters/4/4}
+\input{Chapters/4/5}
+\input{Chapters/4/6}
+\input{Chapters/4/7}
+\input{Chapters/5/index}
+\input{Chapters/5/1}
+\input{Chapters/5/2}
+\input{Chapters/5/3}
+\input{Chapters/6/index}
+\input{Chapters/7/index}
+
+% Seznam literatury
+\printbibliography[title={Literatura}, heading=bibintoc]
+
+% Prilohy
+\appendix
+% \input{Chapters/Appendix1.tex}
+% \input{Chapters/Appendix2.tex}
+
+% Priloha vlozena primo do hlavniho LaTeX souboru. Ne vsechny prilohy je nutne mit ve zvlastnich souborech.
+% \chapter{Dlouhý zdrojový kód}
+% \lstinputlisting[label=src:CppExternal,caption={Dlouhý zdrojový kód v jazyce C++ načtený s externího souboru}]{SourceCodes/ArraySortingAlgorithms.cpp}
+
+\end{document}

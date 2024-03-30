@@ -1,0 +1,43 @@
+\section{Ztrátová funkce}
+\label{sec:Chapter47}
+Pro zpětnou propagaci všech našich modelů využíváme jako základní ztrátovou funkci střední kvadratickou chybu (MSE, Mean Squared Error), protože tato metoda penalizuje velké odchylky mezi predikovanými a skutečnými hodnotami.  V naších sítích aplikujeme globální průměrování (ang. reduce mean) s výpočtem MSE:
+\begin{equation}
+    loss(y_i, \hat{y}_i) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2,
+\end{equation}
+kde $y_i$ je konkrétní hodnota z přímého průchodu sítě na pozici $i$, $\hat{y}_i$ je kontrolní hodnota na pozici $i$ aneb tzv. ground truth a $N$ je celkový počet hodnot na mapě příznaků. Na základě syntetické mapy s Gaussovou funkcí okolo označených $(x, y)$ aplikuje jako kontrolní hodnota $\hat{y}$. Kontroluje se vždy pouze daný výstupní kanál ze všech 11, to kvůli povaze informacím k datasetu popsaným v kapitole \ref{sec:Chapter31}. Ve fázi tréninku také můžeme síť trénovat na již zmíněných falešných snímcích, neobsahující klíčový bod dané třídy na odpovídajícím výstupní kanálu - zde můžeme trénovat opět pouze na daném kanálu, opět ze stejného důvodu jako při pravých snímcích.
+
+\subsection{První návrh ztrátové funkce}
+
+První návrh této sítě byl rozdělit poměr výskytu pravých a falešných snímků při tréninku na $50:50$. Avšak jak se může řešení ztrátové funkce zdát být kompletní, zdaleka není. Při experimentech se ukázalo, a teoretická představa tomu odpovídá, že toto tréninkové nastavení zcela nezabraňuje falešným detekcím i na neodpovídajících kanálech podobných klíčových bodů. Avšak přesné lokalizace bylo dosaženo, kanály ostatních tříd klíčových bodů dosahovaly při lokalizaci na svém maximu hodnoty blížící se $1.0$.
+
+\subsection{Pokus o adresování korektní klasifikace}
+
+Druhý návrh pro adresování korektní klasifikace mezi kanály bylo vytvořit set klíčových bodů, mezi kterými docházelo k detekci na neodpovídajících výstupních kanálech. Konkrétně se jednalo o třídy $\{0, 1, 5, 6, 9\}$ (viz. obrázek \ref{fig:synthetic_images}). Pravé snímky těchto bodů byly aplikovány jako falešné pro ostatní snímky z tohoto setu v poměru 25\% k celému tréninku. Na snímcích se na základě manuální vizuální kontroly nevyskytovaly klíčové body na tomto snímku navzájem mezi sebou, čili to působilo jako řešení, které by mohlo vést ke zlepšení.
+
+I když tento přístup představil síti schopnost korektní klasifikace na daný set tříd, mezi kterými probíhala vzájemná detekce a neschopnost vzájemného odlišení, došlo k zajímavé anomálii. Síť sice nabrala schopnost odlišit daný set klíčových bodů, avšak ztratila schopnost odlišení mezi vůbec si nepodobnými klíčovými body, která v předchozím problémům byla.
+
+\subsection{Finální podoba ztrátové funkce}
+\label{subsec:Chapter473_final_loss}
+
+Finálně bylo vyvinuto řešení, které je univerzální a je použito ve všech modelech finálně implementovaných v této práci. V průběhu tréninku sítě tvořil proud dat v následujících poměrech:
+\begin{enumerate}[label=(\Alph*)]
+    \item 50 \% \textbf{pravé snímky}, aplikovány na daný výstupní kanál s použitím MSE
+    \item 25 \% \textbf{falešné snímky}, aplikovány na daný výstupní kanál s použitím MSE mezi predikovanou výstupním kanálem a nulovou 2D skalární mapou
+    \item 25 \% \textbf{snímky pro eliminaci detekcí} na ostatních 10 výstupních kanálech. Pravý snímek z datasetu se ve fázi tréninku modelu aplikuje na jakoukoli náhodnou třídu z ostatních 10 klíčových bodů. Ztrátová funkce je s pomocí masky aplikována podobně jako při falešných snímcích mezi výstupním kanálem a nulovou 2D skalární mapou, avšak pouze v daném rozsahu od klíčového bodu. Detekce na okolních oblastech ve snímku jsou tedy v tomto případě ignorovány.
+\end{enumerate}
+Po přidání případu (C) by se měla síť naučit korektně eliminovat detekce na nerelevantních výstupních kanálech. S případem (C) ale také v zájmu zachování udržení číselné stability, což je klíčové pro zajištění konzistentní a efektivní konvergence v procesu trénování, musíme aplikovat následující normalizaci:
+\begin{equation}
+loss(y_i, \hat{y}_i) = \frac{\sum_{i=1}^{N} [(y_i - \hat{y}_i)^2\times m_i]}{\sum_{i=1}^{N} m_i},
+\end{equation}
+kde $m_i$ tvoří konkrétní binární hodnotu masky na indexu $i$, a tedy $\sum_{i=1}^{N} m_i$ počet pozitivních hodnot v masce, neboli počet bodů aplikovaných ve výpočtu ztrátové funkce. V případech (A) a (B) je to prakticky velikost výstupní mapy příznaků sítě, tj. výška$\times$šířka. V případě (C) se jedná o počet pozitivních hodnot masky.
+
+\subsection{Přizpůsobení ztrátové funkce pro U-Net STN}
+Modul STN přidává potřebu uzpůsobit výpočet ztrátové funkce pro transformovaný snímek, který není jednotný se vstupním snímkem. Aby se trénink mohl adaptovat na chování modulu STN s použitím předchozí ztrátové funkce, je nutno aplikovat pár změn:
+\begin{itemize}
+    \item \textbf{Transformace klíčového bodu} - generace kontrolní mapy příznaků se v případě U-Net STN stává úloha, která nemůže být provedena před průchodem sítí na daném snímku. Gaussova funkce musí být vygenerována na pozici transformovaného klíčového bodu, na známých parametrech $\theta$, ve fázi výpočtu ztrátové funkce během tréninku. Pokud bychom s předchozím nastavením ztrátové funkce spustili trénink sítě U-Net v režimu s použitím modulu STN, dosáhli bychom prakticky identických výsledků jako v klasické sítí U-Net, pouze s delší dobou konvergence. STN modulu by bylo znemožněno provádět drtivou většinu transformací.
+    \item \textbf{Omezení souřadnic klíčového bodu} - zajímavým důsledkem při tzv. end-to-end tréninku sítě s modulem STN bez přímé supervize je možnost přeučení díky schopnosti dynamicky upravit vstupní data. Modul STN se bez aplikace omezení souřadnic klíčového bodu velmi rychle naučí snímek transformovat mimo souřadnice vstupního snímku. Při použití s originální ztrátovou funkcí v kapitole \ref{subsec:Chapter473_final_loss} se poté transformují i hodnoty masky $m$ a výpočet ztrátové funkce se tímto díky přeučení zablokuje, dosahujících hodnot silně se blížících 0 a kompletní odmítnutí sítě provádět lokalizační úlohu.
+\end{itemize}
+
+
+
+\endinput

@@ -1,0 +1,11 @@
+\section{Augmentace dat}
+\label{sec:Chapter41}
+Pro účely trénování všech implementovaných neuronových sítí v této práci bylo využito augmentace trénovacích dat. Jak bylo již zmíněno, pro trénování byl dostupný dodaný dataset snímků o velikosti $256\times256$ pixelů. Augmentace těchto obrázků slouží pro představení náhodně upravených grafických odchylek během zpětné propagace sítě. Slouží pro syntetické zvětšení rozsahu datasetu a představení jistých neperfektních elementů trénovatelným parametrům během zpětné propagace. Tento častý přístup pak slouží k více robustní schopnosti následně vykonávat svůj úkol na pravých snímcích. Identický postup augmentace dat je použit i během následných evaluacích modelů. Mezi tyto augmentace patří:
+\begin{enumerate}
+  \item Barevnost (ang. saturation) - úprava na základě odchylky 10 \% oproti původní hodnotě
+  \item Světelnost (ang. brightness) - úprava na základě odchylky 10 \% oproti původní hodnotě
+  \item Barevná škála (ang. hue) - úprava na základě odchylky 5 \% oproti původní hodnotě
+  \item Gaussovo rozostření - DOPLNIT
+  \item Náhodný šum - úprava pixelů o maximálně 3 \% (0.03) hodnoty $\sigma$.
+\end{enumerate}
+\endinput
