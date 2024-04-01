@@ -14,7 +14,7 @@ Vrstvy typu \textbf{PSP pooling} (Pyramid Scheme Parsing) se nacházejí namíst
 \label{fig:resuneta_overview}
 \end{figure}
 
-\textbf{Multi-taskové učení} představeno v originální literatuře slouží ke zlepšení výsledků segmentační úlohy. Při aplikaci multi-taskového učení se nahradí finální 1x1 konvoluční vrstva, PSP pooling vrstva a kombinační vrstva na výstupu jednodušší sítě ResUNet-a. Pro segmentační úlohu jsou si všechny 4 části na sobě komplementární a na sobě nezávisle vygenerovány. Je nutno podotknout, že tyto části nejsou určeny pro přímou součástí finálních inferenčních výsledků, avšak pro vylepšení generalizační a sémanticky chápající schopnosti sítě během tréninku. Učením těchto doplňkových úloh získává síť další informace, které nepřímo přispívají ke zlepšení přesnosti a kvality primární úlohy: segmentace. Konkrétně se jedná o následující 4 části: \cite{resuneta}: 
+\textbf{Multi-taskové učení} představeno v originální literatuře slouží ke zlepšení výsledků segmentační úlohy. Při aplikaci multi-taskového učení se nahradí finální 1x1 konvoluční vrstva, PSP pooling vrstva a kombinační vrstva na výstupu jednodušší sítě ResUNet-a. Pro segmentační úlohu jsou si všechny 4 části na sobě komplementární a na sobě nezávisle vygenerovány. Je nutno podotknout, že tyto části nejsou určeny pro přímou součástí finálních inferenčních výsledků, avšak pro vylepšení generalizační a sémanticky chápající schopnosti sítě během tréninku. Učením těchto doplňkových úloh získává síť další informace, které nepřímo přispívají ke zlepšení přesnosti a kvality primární úlohy: segmentace. Konkrétně se jedná o následující 4 části \cite{resuneta}: 
 \begin{enumerate}
     \item Segmentační masky
     \item Hranové masky, pro zlepšení pochopení rozsahu segmentační úlohy

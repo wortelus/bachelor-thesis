@@ -34,10 +34,23 @@ kde $m_i$ tvoří konkrétní binární hodnotu masky na indexu $i$, a tedy $\su
 \subsection{Přizpůsobení ztrátové funkce pro U-Net STN}
 Modul STN přidává potřebu uzpůsobit výpočet ztrátové funkce pro transformovaný snímek, který není jednotný se vstupním snímkem. Aby se trénink mohl adaptovat na chování modulu STN s použitím předchozí ztrátové funkce, je nutno aplikovat pár změn:
 \begin{itemize}
-    \item \textbf{Transformace klíčového bodu} - generace kontrolní mapy příznaků se v případě U-Net STN stává úloha, která nemůže být provedena před průchodem sítí na daném snímku. Gaussova funkce musí být vygenerována na pozici transformovaného klíčového bodu, na známých parametrech $\theta$, ve fázi výpočtu ztrátové funkce během tréninku. Pokud bychom s předchozím nastavením ztrátové funkce spustili trénink sítě U-Net v režimu s použitím modulu STN, dosáhli bychom prakticky identických výsledků jako v klasické sítí U-Net, pouze s delší dobou konvergence. STN modulu by bylo znemožněno provádět drtivou většinu transformací.
-    \item \textbf{Omezení souřadnic klíčového bodu} - zajímavým důsledkem při tzv. end-to-end tréninku sítě s modulem STN bez přímé supervize je možnost přeučení díky schopnosti dynamicky upravit vstupní data. Modul STN se bez aplikace omezení souřadnic klíčového bodu velmi rychle naučí snímek transformovat mimo souřadnice vstupního snímku. Při použití s originální ztrátovou funkcí v kapitole \ref{subsec:Chapter473_final_loss} se poté transformují i hodnoty masky $m$ a výpočet ztrátové funkce se tímto díky přeučení zablokuje, dosahujících hodnot silně se blížících 0 a kompletní odmítnutí sítě provádět lokalizační úlohu.
+    \item \textbf{Transformace klíčového bodu} - generace kontrolní mapy příznaků se v případě U-Net STN stává úloha, která nemůže být provedena před průchodem sítí na daném snímku. Gaussova funkce musí být vygenerována na pozici transformovaného klíčového bodu pomocí známých parametrů $\theta$ ve fázi výpočtu ztrátové funkce během tréninku. Pokud bychom s předchozím nastavením ztrátové funkce spustili trénink sítě U-Net v režimu s použitím modulu STN, dosáhli bychom prakticky identických výsledků jako v klasické sítí U-Net, pouze s delší dobou konvergence. STN modulu by bylo znemožněno provádět drtivou většinu transformací.
+    \item \textbf{Omezení souřadnic klíčového bodu} - zajímavým důsledkem při tzv. end-to-end tréninku sítě s modulem STN bez přímé supervize je možnost přeučení díky schopnosti dynamicky upravit vstupní data. Modul STN se bez aplikace omezení souřadnic klíčového bodu velmi rychle naučí hledaný klíčový bod transformovat mimo rozsah vstupního snímku. Při použití s originální ztrátovou funkcí v kapitole \ref{subsec:Chapter473_final_loss} se poté transformují i hodnoty masky $m$ a výpočet ztrátové funkce se tímto díky přeučení zablokuje, dosahujících hodnot silně se blížících 0, a vznikne kompletní odmítnutí sítě provádět lokalizační úlohu. Souřadnice byly omezeny na rozsah normalizovaného souřadnicového systému $[0,9; 0,9]$ původního rozsahu $[1,0; 1,0]$. Od těchto hranic snímku se přidává lineární penalizační ztrátová hodnota na základě součtu přesahu transformovaného správného klíčového bodu na snímku na obou dvou osách:
+    \begin{equation}
+    \begin{aligned}
+    P(a_x, a_y) = & \max(0, a_x - \alpha) + \max(0, -\alpha - a_x) \\
+                  & + \max(0, a_y - \alpha) + \max(0, -\alpha - a_y),
+    \end{aligned}
+    \end{equation}
+    kde $(a_x, a_y)$ je transformovaná hodnota správného klíčového bodu dle matice ${\displaystyle \mathrm {A} }_\theta$ a $\alpha = 0,9$ specifikuje hranice rozsahu transformovaného správného klíčového bodu.
+    
 \end{itemize}
 
-
+Výsledná ztrátová funkce pro U-Net STN by tedy mohla vypadat následovně:
+\begin{equation}
+\begin{aligned}
+loss(y_i, \hat{y}_i) = & \frac{\sum_{i=1}^{N} [(y_i - \hat{y}_i)^2\times m_i]}{\sum_{i=1}^{N} m_i} + P(a_x, a_y).
+\end{aligned}
+\end{equation}
 
 \endinput

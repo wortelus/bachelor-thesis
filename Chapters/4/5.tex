@@ -7,27 +7,27 @@ U-Net STN není přesným názvem pro ustálenou architekturu neuronové sítě,
     \item \textbf{Ko-lokalizátor} - Funkce modulu STN jako ko-lokalizátor souvisí s mechanizmem pozornosti a jedná se tedy pouze o přímou implikaci této schopnosti na možnost již už také hrubě rozeznat klíčové body. I když trénovatelná část modulu STN není nijak propojená s následnou sítí U-Net a nemohou sdílet informace v tradičním smyslu propojených vrstev neuronových sítí, modul STN může již jednoduché lokalizační úlohy hrubě lokalizovat, a následně je například převést do středu snímku.
 \end{enumerate}
 
-Pro náš přístup o zařazení modulu STN může být zvolen přístup kompletní afinní 2D transformace pomocí 6 parametrů $\theta$ (matice \ref{eq:stn_6_theta}) nebo pomocí 3 parametrů $\theta$ (matice \ref{eq:stn_3_theta}). Výstupní obraz je pomocí vzorkovníku na daných parametrech transformován, a předán dále do sítě U-Net, tedy do prvního bloku enkodéru. Síť U-Net je v tomto přístupu stavěna identicky jako v předchozím přístupu se sítí U-Net v kapitole \ref{sec:Chapter43} na základě obdobných stanovených návrhových rysů v kapitole \ref{sec:Chapter42}.
+Pro náš přístup o zařazení modulu STN může být zvolen přístup kompletní afinní 2D transformace pomocí 6 parametrů $\theta$ (matice \ref{eq:stn_6_theta}) nebo pomocí pouze 3 parametrů $\theta$ (matice \ref{eq:stn_3_theta}). Výstupní obraz je pomocí vzorkovníku na daných parametrech transformován, a předán dále do sítě U-Net, tedy do prvního bloku enkodéru. Síť U-Net je v tomto přístupu stavěna identicky jako v předchozím přístupu se sítí U-Net v kapitole \ref{sec:Chapter43} na základě obdobných stanovených návrhových rysů v kapitole \ref{sec:Chapter42}.
 
 \subsection{Návrh lokalizační sítě STN}
 
-\textbf{Lokalizační síť} modulu STN je v případě této práce navržena jako síť typu CNN s navazující regresní sítí plně propojených vrstev (ang. dense layer). V následující tabulce \ref{fig:stn_loc_net} reprezentující zvolený přístup pro návrh lokalizační sítě reprezentuje $f$ počet jednotek či filtrů v síti, v této práci stanoveno na hodnotu $128$. Parametr $n_{\theta}$ zase stanoví výstupních parametrů $\theta$ - v rámci praktické části této práce $3$ nebo $6$:
+\textbf{Lokalizační síť} modulu STN je v případě této práce navržena jako síť typu CNN s navazující regresní sítí plně propojených vrstev (ang. dense layer). V následující tabulce \ref{fig:stn_loc_net} reprezentující zvolený přístup pro návrh lokalizační sítě reprezentuje $m$ počet jednotek či filtrů v síti, v této práci stanoveno na hodnotu $128$. Parametr $n_{\theta}$ zase stanoví výstupních parametrů $\theta$ - v rámci praktické části této práce $3$ a $6$:
 
 \begin{table}[H]
 \centering
 \begin{tabular}{@{}llll@{}}
 \toprule
 Typ vrstvy & Aktivační funkce & Počet filtrů / jednotek neuronů & Velikost filtru \\ \midrule
-Conv2D & ReLU & $f$ & $3 \times 3$ \\
+Conv2D & ReLU & $m$ & $3 \times 3$ \\
 MaxPooling2D & - & - & $2 \times 2$ \\
-Conv2D & ReLU & $2\times f$ & $3 \times 3$ \\
+Conv2D & ReLU & $2\times m$ & $3 \times 3$ \\
 MaxPooling2D & - & - & $2 \times 2$ \\
-Conv2D & ReLU & $4\times f$ & $3 \times 3$ \\
+Conv2D & ReLU & $4\times m$ & $3 \times 3$ \\
 MaxPooling2D & - & - & $2 \times 2$ \\
 GlobalAverageMaxPooling & - & - & - \\
 \bottomrule
-Dense & ReLU & $4\times f$ & - \\
-Dense & ReLU & $2\times f$ & - \\
+Dense & ReLU & $4\times m$ & - \\
+Dense & ReLU & $2\times m$ & - \\
 Dense & ReLU & $n_{\theta}$ & - \\
 \bottomrule
 \end{tabular}

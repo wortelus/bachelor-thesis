@@ -1,6 +1,10 @@
 \section{Obecný návrh sítí}
 \label{sec:Chapter42}
-V každém bloku se nachází dvě konvoluční operace s $3\times3$ velikostí filtru, jednotným krokem v obou směrech os a ReLU aktivační funkcí. Pro všechny konvoluční operace bylo aplikováno místo odsazení typu valid padding odsazení typu same padding oproti původní architektuře \cite{unet} pro zachování velikosti obrazu na vstupu a výstupu sítě jako celku. Také velikosti map příznaků jsou zachovány v rámci všech pořadových konvolučních vrstev. V blocích enkodéru se v naší implementaci používá $2\times2$ vrstva typu max pooling a $2\times2$ vrstva typu up-sampling zase v blocích dekodéru.
+V každém bloku se nachází dvě konvoluční operace s $3\times3$ velikostí filtru, jednotným krokem v obou směrech os a ReLU aktivační funkcí. Pro všechny konvoluční operace bylo aplikováno místo odsazení typu valid padding odsazení typu same padding oproti původní architektuře \cite{unet} pro zachování velikosti obrazu na vstupu a výstupu sítě jako celku. Také velikosti map příznaků jsou zachovány v rámci všech pořadových konvolučních vrstev. 
+
+Pro konvoluční vrstvy s aktivační funkcí ReLU byly použity kernelové inicializéry typu \textit{He Normal}, které jsou používány pro vrstvy s aktivační funkcí ReLU \cite{relu_henormal} a je to také i konzistentní nastavení s například oficiální implementací U-Net++ \cite{unetpp_github}. 
+
+V blocích enkodéru se v naší implementaci používá $2\times2$ vrstva typu max pooling a $2\times2$ vrstva typu up-sampling zase v blocích dekodéru. Vrstva typu up-sampling tvoří náhradu pro původní vrstvu typu transpose. Toto rozhodnutí prane z úsudku založeném na dostatečných výsledcích a nízkých rozdílech 
 
 \begin{figure}[ht]
     \centering

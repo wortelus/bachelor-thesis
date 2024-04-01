@@ -46,5 +46,13 @@ kde $a$ je amplitudový faktor Gaussovy funkce, $x$ a $y$ jsou pozice na 2D skal
     \item pro $256 \times 256$ snímky -- $a=1$, $\sigma=10.0$
 \end{itemize}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth,keepaspectratio]{Figures/kp_gaussian.png}
+\caption[Příklad aplikace Gaussovy funkce na snímek s klíčovým bodem]{Příklad aplikace Gaussovy funkce na snímek s klíčovým bodem o velikosti $128\times128$ a s parametrem $\sigma=5.0$.}
+
+\label{fig:unetpp}
+\end{figure}
+
 Během experimentálních trénincích nevyskytujících se ve finálních evaluacích jsme pracovali i s premisí odebrání ReLU aktivační funkce na posledním bloku dekodéru těsně před aplikací sigmoid aktivační funkce. Tato premise se neobhájila a vyšlo najevo, že představení linearity v předposlední konvoluční operaci má detrimentální účinky na lokalizační přesnost sítě. MOŽNÁ DÁT DO DALŠÍ KAPITOLY.
 \endinput
