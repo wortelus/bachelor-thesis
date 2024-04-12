@@ -1,0 +1,40 @@
+\section{Detaily implementace}
+\label{sec:Chapter55}
+
+\subsection{Preprocessing dat}
+Funkce \texttt{tf.Dataset.map(lambda line: decode\_csv\_line(line))} tvoří první krok proudu dat při tréninku všech našich sítí. Mapovací funkce datasetu se stará o tyto kroky, v následujícím pořadí:
+\begin{enumerate}
+    \item \textbf{Náhodný výběr trénovacího způsobu} - pomocí pravidla $50:25:25$ je vybrán jeden ze 3 trénovacích způsobů popsaných blíž v kapitole \ref{subsec:Chapter473_final_loss}.
+    \item \textbf{Preprocessing a augmentace snímků} - snímky jsou načteny a augmentovány o náhodné změny popsané blíž v kapitole \ref{sec:Chapter3}.
+    \item \textbf{Generace mapy příznaků} - generace mapy příznaků pro relevantní zvolenou trénovací úlohu. V rámci tréninku sítě U-Net STN se tento krok provádí ve ztrátové funkci.
+    \item \textbf{Generace masky} - generace relevantní masky pro danou trénovací úlohu. V rámci tréninku sítě U-Net STN se tento krok provádí ve ztrátové funkci.
+    \item \textbf{Tvorba výstupu} - augmentovaný vstupní snímek, tak koplementární data do ztrátové funkce jsou výstupem mapovací funkce.
+\end{enumerate}
+
+Mapovací funkce datasetu použitých v této práci jsou k nalezení v příloze v souborech \texttt{map.py} a \texttt{map\_stn.py}.
+
+
+
+\subsection{Ztrátová funkce}
+\label{subsec:Chapter55_loss_func}
+
+Pro trénink modelů U-Net a U-Net++ byla ztrátová funkce dle kapitoly \ref{subsec:Chapter473_final_loss} vytvořena do následující podoby \ref{src:loss_func}. Ztrátová funkce je samozřejmě konstruována vektorizovaným způsobem:
+
+\label{src:loss_func}
+\lstinputlisting[language=Python, caption={Ztrátová funkce pro pro sítě U-Net a U-Net++}]{SourceCodes/loss.py}
+
+\subsection{Ztrátová funkce pro U-Net STN}
+\label{subsec:Chapter55_loss_func_stn}
+
+Pro použití modulu STN musely být aplikovány úpravy, detailněji popsány v kapitole \ref{subsec:Chapter474_stn_loss}. Zmíněná transformace správného klíčového bodu dle parametrů $\theta$ je ve ztrátové funkci uzpůsobena následovně s použitím pomocného výstupu z modulu STN \texttt{theta}. Ve fázi tohoto výpočtu je souřadnicový systém v normalizované formě.
+
+\label{src:loss_func_stn_inv_pos}
+\lstinputlisting[language=Python, caption={Útržek z end-to-end ztrátové funkce sítě U-Net STN pro transformaci lokace správného klíčového bodu do nové lokace na základě affiní transformační matice theta. }]{SourceCodes/loss_stn_inv_pos.py}
+
+Výsledné souřadnice jsou pak následně převedeny zpět do původního souřadnicového systému rozsahu snímku v pixelech. Na základě těchto souřadnic jsou vygenerovány mapy příznaků a masky sloužící pro výpočty ve ztrátové funkci, která je obdobná s klasickou implementací v předchozí kapitole \ref{subsec:Chapter55_loss_func}.
+
+Normalizované transformované souřadnice jsou také využity pro výpočet pomocné ztráty:
+\label{src:loss_stn_aux_func}
+\lstinputlisting[language=Python, caption={Pomocná ztrátová funkce pro supervizi lokace normalizovaných transformovaných souřadnic na snímku. }]{SourceCodes/loss_stn_aux.py}
+
+\endinput

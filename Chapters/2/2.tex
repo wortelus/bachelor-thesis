@@ -142,7 +142,7 @@
 
 \textbf{Krk (ang. bottleneck)} je prvek uprostřed sítě U-Net, která propojuje enkodér na jeho konci a dekodér na jeho počátku. Tato část sítě obsahuje nejmenší velikost obrazu, zato maximální počet filtrů v konvolučních vrstvách.
 
-\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstupy do sémantických vrstev dekodérů z předchozích částí sítě předchází 2x2 vrstvy, kterým se v orig. literatuře říká up-convolution. Ve skutečnosti se jedná o vrstvu 2x2 typu up-sampling, následovanou 2x2 konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
+\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstupy do sémantických vrstev dekodérů z předchozích částí sítě předchází $2\times2$ vrstvy, kterým se v orig. literatuře říká up-convolution. Ve skutečnosti se jedná o vrstvu 2x2 typu up-sampling, následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
 
 Všechny tyto 3 extrační části zpravidla obsahují dvě 3x3 konvoluční vrstvy, zpravidla s odsazením typu valid padding a (1, 1) krokem (ang. stride), aplikovány následně po sobě s ReLU aktivační funkcí, obdobně jako v původní architektuře \cite{unet}. Postupem síť U-Net zlepšuje své receptivní pole, a v hlubších vrstvách se zlepšuje v zachycování sémantických a kontextuálních informací. Ovšem postupem síť také ztrácí lokalizační informace, pro které byly do sítě U-Net přidány také skokové propojení (tj. skip connection) mezi odpovídajícími vrstvami enkodéru a dekodéru \cite{unet_success}.
 

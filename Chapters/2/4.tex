@@ -1,7 +1,7 @@
 \section{Attention U-Net}
 \label{sec:Chapter24}
 
-Vylepšení sítě U-Net o \textbf{pozornostní bloky} či brány (AG, tj. attention gates) bylo představeno v literatuře \cite{attentionunet} roku 2018. Premise pozornostních bloků je zvýšit schopnost sítě se naučit ignorovat irelevantní části vstupního obrazu, zatímco mohou zároveň přidávat na důležitosti jiným částem. Vylepšení pozornostních bloků bylo přidáno do části dekodéru sítě U-Net. Přijímají 2 vstupy, kde jeden z nich je bránový vstup $g$ z předchozího bloku dekodéru a druhý je skokové propojení z odpovídající vrstvy enkodéru $x^l$. 
+Vylepšení sítě U-Net o \textbf{pozornostní bloky} či brány (AG, tj. attention gates) bylo představeno v literatuře \cite{attentionunet} roku 2018. Premise pozornostních bloků je zvýšit schopnost sítě se naučit ignorovat irelevantní části vstupního obrazu, zatímco mohou zároveň přidávat na důležitosti jiným částem. Vylepšení pozornostních bloků bylo přidáno do části dekodéru sítě U-Net. Přijímají 2 vstupy, kde jeden z nich je bránový vstup $g$ z předchozího bloku dekodéru a druhý je skokové propojení z odpovídající vrstvy enkodéru $x^l$. Pozornostní blok je detailněji vyobrazen na obrázku \ref{fig:attention_unet}.
 
 Aby byla zajištěna kompatibilita, jsou rozměry bránového signálu $g$ a skokového propojení z výstupu relevantního bloku enkodéru $x^l$ přizpůsobeny, obvykle pomocí vrstvy typu max pooling na rozměry bránového signálu $H_g \times W_g \times D_g$ . Prvky jsou sčítány na elementární úrovni a před aplikací koeficientů pozornosti $(\alpha_i)$ jsou zpracovány pomocí ReLU aktivační vrstvy.
 
@@ -74,9 +74,9 @@ Aby byla zajištěna kompatibilita, jsou rozměry bránového signálu $g$ a sko
   \draw [->] (times.east) -- ++(0.5cm,0) node [midway, above] {$\hat{x}^l$};
   \draw[shortarrow] (resampler) -- (timesp) node[midway, above, xshift=-0.25cm] {$\alpha$};
   \draw[arrow] (xlbranchp) -| (xlbranch_inter_p) -| (times);
-  
 \end{tikzpicture}
 \caption[Pozornostní blok sítě Attention U-Net]{Pozornostní blok sítě Attention U-Net, kde $g$ je bránový vstup, $x^l$ je vstup z skokového propojení, $\psi$ je konvoluční operace s trénovatelnými parametry. $\hat{x}^l$ je finálně výsledek vzájemného součinu pozornostních koeficientů $\alpha$ a $x^l$. Vytvořeno podle \cite{attentionunet}. }
+\label{fig:attention_unet}
 \end{figure}
 
 Mechanismus pozornosti funguje tak, že se na kombinované rysy aplikuje sigmoidní aktivace pro generování koeficientů pozornosti (\(\alpha_i\), kde \(\alpha_i \in [0, 1]\)), které účinně škálují vstupní rysy tím, že zvýrazňují oblasti zájmu a potlačují méně relevantní oblasti. Tohoto selektivního zvýraznění je dosaženo prostřednictvím elementárního násobení koeficientů pozornosti s rysy enkodéru, což zajišťuje, že se síť zaměřuje na relevantní informace z první části sítě. Následně jsou výstupy těchto pozornostních bloků aplikovány na vstupy relevantních bloků dekodérů. \cite{attentionunet}.

@@ -11,7 +11,7 @@ Pro náš přístup o zařazení modulu STN může být zvolen přístup komplet
 
 \subsection{Návrh lokalizační sítě STN}
 
-\textbf{Lokalizační síť} modulu STN je v případě této práce navržena jako síť typu CNN s navazující regresní sítí plně propojených vrstev (ang. dense layer). V následující tabulce \ref{fig:stn_loc_net} reprezentující zvolený přístup pro návrh lokalizační sítě reprezentuje $m$ počet jednotek či filtrů v síti, v této práci stanoveno na hodnotu $128$. Parametr $n_{\theta}$ zase stanoví výstupních parametrů $\theta$ - v rámci praktické části této práce $3$ a $6$:
+\textbf{Lokalizační síť} modulu STN je v případě této práce navržena jako síť typu CNN s navazující regresní sítí plně propojených vrstev (ang. dense layer). V následující tabulce \ref{fig:stn_loc_net} je popsána zvolená architektura. $m$ reprezentuje počet jednotek či filtrů použitý jako referenční hodnota (v této práci stanoveno na hodnotu $128$). Parametr $n_{\theta}$ zase stanoví počet výstupních parametrů $\theta$ - v rámci praktické části této práce $3$ a $6$:
 
 \begin{table}[H]
 \centering
@@ -37,9 +37,9 @@ Dense & ReLU & $n_{\theta}$ & - \\
 
 \subsection{Návrh vzorkového pole a vzorkovníku}
 
-V modulu STN je další následující částí generátor vzorkového pole. Generátor vzorkového pole má zodpovědnost generovat jednotnou vzorkovou mapu $T_{I}(G)$, která je v normalizovaném rozsahu $[-1, 1]$ pro určení středu souřadného systému do středu snímku. Na tu se následně aplikuje afinní transformace pomocí matice $\displaystyle \mathrm {A}_\theta$. 
+V modulu STN je další následující částí generátor vzorkového pole. Generátor vzorkového pole má zodpovědnost generovat vzorkovou mapu $T_{\theta}(G)$ z jednotkové vzorkové mapy $T_{I}(G) = G$ (viz. obrázek \ref{fig:stn_grid}), která je v normalizovaném rozsahu $[-1, 1]$ pro určení středu souřadného systému do středu snímku. Vzorková mapa $T_{\theta}(G)$ se generuje pomocí matice $\displaystyle \mathrm {A}_\theta$. 
 
-Výsledné vzorkové pole $T_{\theta}(G_i)$ následně vstupuje do vzorkovníku, který na vstupní snímek aplikuje pomocí bilineární interpolace finální transformaci, generující výstupní snímek pro síť U-Net.
+Výsledné vzorkové pole $T_{\theta}(G)$ následně vstupuje do vzorkovníku, který na vstupní snímek aplikuje pomocí bilineární interpolace finální transformaci, generující výstupní snímek pro síť U-Net.
 
 \subsection{Způsob tréninku}
 

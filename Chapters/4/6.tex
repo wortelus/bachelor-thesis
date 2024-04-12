@@ -6,10 +6,12 @@ Jak bylo již řečeno v předchozích sekcích o návrhů sítí U-Net, U-Net++
 Aktivační funkce sigmoid je funkce, která se používá v neuronových sítích k převodu vstupních hodnot na hodnoty v rozmezí 0 a 1. Je definována vzorcem:
 
 \begin{equation}
-\sigma(x) = \frac{1}{1+e^{-x}}
+\sigma(x) = \frac{1}{1+e^{-x}},
 \end{equation}
 
-\begin{figure}[ht]
+kde $e$ je základ přirozeného logaritmu a $x$ je vstupní hodnota. Tato funkce je obzvláště užitečná v úloze pro lokalizaci. Každý kanál tedy můžeme chápat jako binární softmax klasifikátor na úrovni pixelů, kde \enquote{pravděpodobnost} výskytu daného klíčového bodu je hodnota daného pixelu.
+
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -29,8 +31,6 @@ Aktivační funkce sigmoid je funkce, která se používá v neuronových sítí
     \label{fig:sigmoid}
 \end{figure}
 
-Kde $e$ je základ přirozeného logaritmu a $x$ je vstupní hodnota. Tato funkce je obzvláště užitečná v úloze pro lokalizaci. Každý kanál tedy můžeme chápat jako binární softmax klasifikátor na úrovni pixelů, kde \enquote{pravděpodobnost} výskytu daného klíčového bodu je hodnota daného pixelu.
-
 Toto vede k možnosti jednoduše provést lokální klasifikaci na jednotlivých kanálech, a to s pomocí maximální nalezené hodnoty na výstupním kanálu (což je typicky z praktického hlediska i hledaná pozice klíčového bodu). Například výstupní kanál s maximální hodnotou 0.8 vykazuje silnou pravděpodobnost výskytu klíčového bodu na daném kanálu, na rozdíl od kanálu s max. hodnotou 0.3.
 
 \subsection{Reprezentace klíčových bodů}
@@ -48,10 +48,11 @@ kde $a$ je amplitudový faktor Gaussovy funkce, $x$ a $y$ jsou pozice na 2D skal
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\textwidth,keepaspectratio]{Figures/kp_gaussian.png}
-\caption[Příklad aplikace Gaussovy funkce na snímek s klíčovým bodem]{Příklad aplikace Gaussovy funkce na snímek s klíčovým bodem o velikosti $128\times128$ a s parametrem $\sigma=5.0$.}
-
-\label{fig:unetpp}
+\includegraphics[width=0.3\textwidth,keepaspectratio]{Figures/kp_examples/kp_example_00.png}
+\includegraphics[width=0.3\textwidth,keepaspectratio]{Figures/kp_examples/kp_example_01.png}
+\includegraphics[width=0.3\textwidth,keepaspectratio]{Figures/kp_examples/kp_example_02.png}
+\caption[Příklad aplikace Gaussovy funkce na snímky s klíčovým bodem]{Příklad aplikace Gaussovy funkce na augmentované snímky s klíčovým bodem.}
+\label{fig:kp_examples}
 \end{figure}
 
 Během experimentálních trénincích nevyskytujících se ve finálních evaluacích jsme pracovali i s premisí odebrání ReLU aktivační funkce na posledním bloku dekodéru těsně před aplikací sigmoid aktivační funkce. Tato premise se neobhájila a vyšlo najevo, že představení linearity v předposlední konvoluční operaci má detrimentální účinky na lokalizační přesnost sítě. MOŽNÁ DÁT DO DALŠÍ KAPITOLY.

@@ -1,0 +1,13 @@
+\section{Modul STN}
+\label{sec:Chapter56}
+Modul STN je tvořen jako vlastní Keras vrstva dědící z \texttt{tf.keras.layers.Layer}. Metoda \texttt{call(inputs)}\footnote{Metoda vrstvy pro transformaci vstupu přímým průchodem sítí.} je navržena takto:
+
+\label{src:stn_call}
+\lstinputlisting[language=Python, caption={Metoda \texttt{call(inputs)} }]{SourceCodes/stn.py}
+
+Funkce \texttt{bilinear\_sampler(inputs, xS, yS)} pro tvorbu vzorkovacího pole je tvořena následovně:
+
+\label{src:stn_grid_gen}
+\lstinputlisting[language=Python, caption={Metoda \texttt{bilinear\_sampler(inputs, xS, yS)} }]{SourceCodes/stn_grid_gen.py}
+
+\endinput

@@ -1,5 +1,14 @@
-\section{Dodatečné nástroje}
+\section{Parametry trénování}
 \label{sec:Chapter53}
-Pro práci s modely, výsledky modelů, datasetem, zpracováváním dat obecně atd. bylo použito několika nástrojů komplementárním k postupu na úlohách řešených v rámci této práce, mezi ně patří:
+Tréninky a evaluace modelů konvolučních neuronových sítí v této práci využívají připraveného datasetu, který byl rozdělen na 3 části:
+\begin{enumerate}
+    \item \textbf{Trénovací část}, 60 \% celkového datasetu, sloužící pro aktualizaci a trénování parametrů sítě.
+    \item \textbf{Validační část}, 20 \%, sloužící pro evaluaci epoch během trénování konvolučních neuronových sítí a včasnému načasování zastavení tréninku.
+    \item \textbf{Testovací část}, 20 \%, sloužící pro finální generaci metrik a porovnání modelů. Jedná se právě o tyto data, která síť během tréninku \enquote{neviděla} ani jednou, takže riziko vzniku jakéhokoli tzv. biasu vůči datům během finální evaluace či porovnání je minimální.
+\end{enumerate}
+
+Data, které byly reprezentovány v CSV souborech pro každou třídu separátně (blíž popsány v kapitole \ref{sec:Chapter31}) byly celkově načteny do jednoho objektu typu \texttt{tf.TextLineDataset}. Po načtení byly nejdříve náhodně zamíchány, ověřeny zda neobsahují třídní nevyvážení (ang. class imbalance) pomocí porovnání poměrů všech 11 tříd mezi sebou, zkontrolovány na úniky dat a uloženy do 3 odpovídajících CSV souborů, které pak byly použity opakovaně pro všechny modely.
+
+Pro trénink všech našich sítí byl použit optimizér Adam s mírou učení (ang. learning rate) nastavenou na 1,0$e^{-3}$. Z důvodů velikosti VRAM na domácím tréninkovém stroji a jako rozumný odhad jsem nastavil velikost dávky\footnote{Množství dat, která jsou zpracována a propagována sítí před aktualizací trénovatelných parametrů.} (ang. batch size) při tréninku na adekvátní hodnotu 32.
 
 \endinput
