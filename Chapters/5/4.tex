@@ -2,9 +2,9 @@
 \label{sec:Chapter54}
 Tréninky byly spouštěny ve stavech specifikovaných v kapitole \ref{sec:Chapter53} na stroji popsaném v kapitole \ref{sec:Chapter51}. Pro trénink byly v prostředí \texttt{Keras} použity zpětné volání a výstupy pro:
 \begin{itemize}
-    \item Včasné zastavení pro případ nezlepšení výsledků validační ztráty mezi epochami, nastaveno na 4 epochy.
+    \item Včasné zastavení pro případ nezlepšení výsledků validační ztráty mezi epochami, nastaveno na 3 epochy.
     \item Ukládání snímku trénovatelných vah a gradientů z dosavadně nejlepší epochy dle validační ztráty - \texttt{best.ckpt}
-    \item Ukládání snímku trénovatelných vah a gradientů z poslední epochy dle validační ztráty - \texttt{best.ckpt}
+    \item Ukládání snímku trénovatelných vah a gradientů z poslední epochy dle validační ztráty - \texttt{cp.ckpt}
     \item Zaznamenování trénovacích a validačních ztrátových hodnot
     \item Trénovací a validační výstup pro nástroj \texttt{TensorBoard}
 \end{itemize}

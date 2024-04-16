@@ -1,17 +1,21 @@
-\section{Výsledky a zhodnocení}
+\section{Časy tréninku a inference}
 \label{sec:Chapter61}
-Jelikož
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth,keepaspectratio]{Figures/plots/loc_strength.png}
-\caption[Síla lokalizace modelů]{Graf ukazující převážnou sílu lokalizace zobrazenou pomocí KDE. Graf je na ose y v měřítku $log_{10}$. }
-\label{fig:loc_strength}
-\end{figure}
+V následující tabulce \ref{tab:models_performance} můžeme vidět výkon trénovaných modelů na našem hardwaru (popsaném v \ref{fig:wortelus_pc}):
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lllll}
+        \toprule
+         & Čas trénovací ep. & Celkem ep. & Nejlepší ep. & Inference \\
+         \midrule
+         U-Net & 29:04 & 16 & 15 & 8ms \\
+         U-Net++ bez HS & 1:12:25 & 25 & 25 & 9ms \\
+         U-Net++ s HS & 1:15:03 & 22 & 22 & 10ms \\
+         U-Net STN 3-parametrový & 42:52 & 19 & 16 & 13ms \\
+         U-Net STN 6-parametrový & 42:59 & 22 & 19 & 13ms \\
+         \bottomrule
+    \end{tabular}
+    \caption[Statistiky trénovaných modelů]{Časy trénovacích epoch (bez validace) na NVIDIA GTX 1070 Strix 8GB společně s inferenčním časem a výběrem epoch. }
+    \label{tab:models_performance}
+\end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth,keepaspectratio]{Figures/plots/loc_distance.png}
-\caption[]{}
-\label{fig:loc_distance}
-\end{figure}
 \endinput

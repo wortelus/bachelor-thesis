@@ -4,7 +4,9 @@ Síť U-Net++ se odvíjí od architektury U-Net v předchozí kapitole \ref{sec:
 
 Skokové bloky přidány v této síti jsou přidány mezi vrstvy dekodéru a enkodéru v rámci pokusu vylepšení výsledků původní sítě U-Net. Premise a detaily vylepšení této sítě jsou detailně popsány v kapitole \ref{sec:Chapter23}. Přesné vyobrazení implementované sítě je graficky reprezentováno v části (b) obrázku \ref{fig:unetpp}. Inspirace pro implementační detaily této sítě pranuly také z open-source implementace citované v originální literatuře \cite{unetpp_github}.
 
-Síť je trénována v režimu hluboké supervize na základě výstupu bloků $X^{0,1}$, $X^{0,2}$, $X^{0,3}$, $X^{0,4}$, kde $X^{0,4}$ je výstup poslední vrstvy dekodéru a ostatní 3 jsou výstupy skokových bloků. Samozřejmě ztrátová funkce nepracuje s ReLU výstupy, ale pro každý blok účastnící se hluboké supervize byla přidána $1\times1$ finální konvoluční vrstva. Při trénování modelu bez hluboké supervize pomocí standardního přístupu zpětné propagace na finální vrstvě se ztrátové funkce účastní pouze finální blok dekodéru $X^{0, 4}$.
+Síť je trénována v režimu hluboké supervize na základě výstupu bloků $X^{0,1}$, $X^{0,2}$, $X^{0,3}$, $X^{0,4}$ (jejich ztrátové hodnoty jsou sečteny a tato hodnota je minimalizována optimizérem). Samozřejmě ztrátová funkce nepracuje s ReLU výstupy, ale pro každý blok účastnící se hluboké supervize byla přidána $1\times1$ finální konvoluční vrstva. Při trénování modelu bez hluboké supervize pomocí standardního přístupu zpětné propagace na finální vrstvě se ztrátové funkce účastní pouze finální blok dekodéru $X^{0, 4}$.
+
+Pro U-Net++ se v řežimu hluboké supervize očekává průměrování na výsledných výstupech účastěných bloků. Tato možnost bude vyzkoušena v implementační a evaluační části práce a porovnána s výsledky výstupu jednotného bloku $X^{0, 4}$ také v rámci hluboké supervize.
 
 Síť U-Net++ obsahuje ve verzi s hlubokou supervizí 9,164,748 parametrů a 9,163,659 v režimu bez hluboké supervize, což je zhruba 17\% nárůst velikosti sítě oproti síti U-Net. Velikost v obou případech dosahuje velikosti zhruba 35 MB.
 \endinput

@@ -4,7 +4,7 @@ Pro zpětnou propagaci všech našich modelů využíváme jako základní ztrá
 \begin{equation}
     loss(y_i, \hat{y}_i) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2,
 \end{equation}
-kde $y_i$ je konkrétní hodnota z přímého průchodu sítě na pozici $i$, $\hat{y}_i$ je kontrolní hodnota na pozici $i$ aneb tzv. ground truth a $N$ je celkový počet hodnot na mapě příznaků. Na základě syntetické mapy s Gaussovou funkcí okolo označených $(x, y)$ aplikuje jako kontrolní hodnota $\hat{y}$. Kontroluje se vždy pouze daný výstupní kanál ze všech 11, to kvůli povaze informacím k datasetu popsaným v kapitole \ref{sec:Chapter31}. Ve fázi tréninku také můžeme síť trénovat na již zmíněných falešných snímcích, neobsahující klíčový bod dané třídy na odpovídajícím výstupní kanálu - zde můžeme trénovat opět pouze na daném kanálu, opět ze stejného důvodu jako při pravých snímcích.
+kde $y_i$ je konkrétní hodnota z přímého průchodu sítě na pozici $i$, $\hat{y}_i$ je kontrolní hodnota na pozici $i$ aneb tzv. ground truth a $N$ je celkový počet hodnot na mapě příznaků. Kontroluje se vždy pouze daný výstupní kanál ze všech 11, to kvůli povaze informacím k datasetu popsaným v kapitole \ref{sec:Chapter31}. Ve fázi tréninku také můžeme síť trénovat na již zmíněných falešných snímcích, neobsahující klíčový bod dané třídy na odpovídajícím výstupní kanálu - zde můžeme trénovat opět pouze na daném kanálu, opět ze stejného důvodu jako při pravých snímcích.
 
 \subsection{První návrh ztrátové funkce}
 
@@ -12,14 +12,14 @@ První návrh pro trénování sítě byl rozdělit poměr výskytu pravých a f
 
 \subsection{Pokus o adresování korektní klasifikace}
 
-Druhý návrh pro adresování korektní klasifikace mezi kanály bylo vytvořit set klíčových bodů, mezi kterými docházelo k detekci na neodpovídajících výstupních kanálech. Konkrétně se jednalo o třídy $\{0, 1, 5, 6, 9\}$ (viz. obrázek \ref{fig:synthetic_images}). Pravé snímky těchto bodů byly aplikovány jako falešné pro ostatní snímky z tohoto setu v poměru 25\% k celému tréninku. Na snímcích se na základě manuální vizuální kontroly nevyskytovaly pozitivní detekce navzájem mezi sebou, čili to působilo jako řešení, které by mohlo vést ke zlepšení.
+Druhý návrh pro adresování korektní klasifikace mezi kanály bylo vytvořit set klíčových bodů, mezi kterými docházelo k detekci na neodpovídajících výstupních kanálech. Konkrétně se jednalo o třídy $\{0, 1, 5, 6, 9\}$ (viz. obrázek \ref{fig:synthetic_images}). Pravé snímky těchto bodů byly aplikovány jako falešné pro ostatní snímky z tohoto setu v poměru 25 \% k celému tréninku. Na snímcích se na základě manuální vizuální kontroly nevyskytovaly pozitivní detekce navzájem mezi sebou, čili to působilo jako řešení, které by mohlo vést ke zlepšení.
 
 I když tento přístup představil síti schopnost korektní klasifikace na daný set tříd, mezi kterými probíhala vzájemná detekce a neschopnost vzájemného odlišení, došlo k zajímavé anomálii - síť sice nabrala schopnost odlišit daný set klíčových bodů, avšak ztratila schopnost odlišení mezi vůbec si nepodobnými klíčovými body.
 
 \subsection{Finální podoba ztrátové funkce}
 \label{subsec:Chapter473_final_loss}
 
-Finálně bylo vyvinuto řešení, které je univerzální a je použito ve všech modelech finálně implementovaných v této práci. V průběhu tréninku sítě tvořil proud dat v následujících poměrech:
+Finálně bylo vyvinuto řešení, které je univerzální a je použito ve všech modelech finálně implementovaných v této práci. V průběhu tréninku sítě byl proud trénovacích dat v následujících poměru:
 \begin{enumerate}[label=(\Alph*)]
     \item 50 \% \textbf{pravé snímky}, aplikovány na daný výstupní kanál s použitím MSE
     \item 25 \% \textbf{falešné snímky}, aplikovány na daný výstupní kanál s použitím MSE mezi predikovanou výstupním kanálem a nulovou 2D skalární mapou
