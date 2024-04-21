@@ -2,11 +2,11 @@
 \label{sec:Chapter51}
 V rámci této práce jsem se pohyboval primárně v prostředí jazyka \textbf{Python}, což je skvělá a častá volba pro mnoho úloh analýzy dat a strojového učení. S jazykem Python bylo použito nástroje virtuálních prostředí \textit{pip} a \textit{Anaconda}, které spravovaly balíčky jazyka Python pro tuto práci.
 
-Pro vývoj byla použita verze Python 3.10 na operačním systému Ubuntu 22.04.03 LTS\footnote{Dlouhodová podpora, ang. Long Time Support.}. Budování prostředí co se týče balíčkovacích kompatibilit mezi verzemi ovladačů, verzemi balíčků pro Python a verzemi cuDNN\footnote{Knihovna zprostředkující jazyk CUDA grafických karet NVIDIA pro účely strojového učení.} bylo co se týče instalace a nastavení nejvíce vyhovující prostředí Ubuntu, což bylo doporučeno i dokumentací následně zmíněných knihoven (jako je např. TensorFlow) jako volba linuxové distribuce \cite{tensorflow_install}.
+Pro vývoj byla použita verze Python 3.10 na operačním systému Ubuntu 22.04.03 LTS\footnote{Dlouhodobá podpora, ang. Long Time Support.}. Budování prostředí, co se týče balíčkovacích kompatibilit mezi verzemi ovladačů, verzemi balíčků pro Python a verzemi cuDNN\footnote{Knihovna zprostředkující jazyk CUDA grafických karet NVIDIA pro účely strojového učení.}, bylo co se týče instalace a nastavení nejvíce vyhovující prostředí Ubuntu, což bylo doporučeno i dokumentací následně zmíněných knihoven (jako je např. TensorFlow) jako volba linuxové distribuce \cite{tensorflow_install}.
 
 Toto prostředí nebylo virtualizováno, nebylo využito prostředků jako je např. Docker a tento systém byl uzpůsoben přímo pro využití v analýze dat a strojového učení.
 
-Většina experimentálního trénování proběhla na následujícím hardwaru:
+Všechny experimentální trénování proběhly na následujícím hardwaru:
 
 \begin{table}[ht]
 \centering
@@ -27,10 +27,10 @@ RAM & 32 GB 6000 MHz DDR5 \\
 \label{sec:Chapter511}
 Bylo také použito několika nástrojů komplementárním k postupu na úlohách řešených v rámci této práce, mezi ně patří:
 \begin{itemize}
-    \item \textbf{NumPy} - jedna z nejpoužívanějších knihoven pro vědecké a statistické výpočty v jazyce Python. Obsahuje různé operace pro práci s poli, vektory a více-dimenzionálními strukturami (tenzory). NumPy poskytuje rozsáhlou podporu pro matematické funkce, včetně, ale nejenom, operací lineární algebry, Fourierovy transformace a generování náhodných čísel. 
-    \item \textbf{Seaborn} - knihovna pro jazyk Python pro rychlé generování diagramů, grafů a podobných grafických vizualizací. Je navržena tak, aby byla snadno použitelná a zároveň poskytovala dynamické informativní výstupy.
-    \item \textbf{Matplotlib} - vykreslovací Python knihovna pro detailnější a pokročilejší práci pro generování diagramů, grafů, vizuálních prvků a mnoho dalšího s vysokým stupněm přizpůsobení poskytující možnost hlubší analýzy a prezentace dat.
-    \item \textbf{Pandas} - knihovna jazyka Python pro práci se strukturovanými textovými daty pro využití v analýze dat a strojovém učení.
-    \item \textbf{TensorBoard} - vizualizační nástroj integrovaný s nástrojem TensorFlow. Umožňuje sledovat a vizualizovat různé metriky, jako jsou gradienty, váhy neuronových sítí a dalších dat dostupných z trénovacího procesu. Nabízí nástroje pro analýzu, měření výkonnosti, optimalizaci a porozumění modelům strojového učení.
+    \item \textbf{NumPy} -- jedna z nejpoužívanějších knihoven pro vědecké a statistické výpočty v jazyce Python. Obsahuje různé operace pro práci s poli, vektory a více-dimenzionálními strukturami (tenzory).
+    \item \textbf{Seaborn} -- knihovna pro jazyk Python pro rychlé generování diagramů, grafů a podobných grafických vizualizací. Je navržena tak, aby byla snadno použitelná a zároveň poskytovala dynamické informativní výstupy.
+    \item \textbf{Matplotlib} -- vykreslovací Python knihovna pro detailnější a pokročilejší práci pro generování diagramů, grafů, vizuálních prvků a mnoho dalšího s vysokým stupněm přizpůsobení poskytující možnost hlubší analýzy a prezentace dat.
+    \item \textbf{Pandas} -- knihovna jazyka Python pro práci se strukturovanými textovými daty pro využití v analýze dat a strojovém učení.
+    \item \textbf{TensorBoard} -- vizualizační nástroj integrovaný s nástrojem TensorFlow. Umožňuje sledovat a vizualizovat různé metriky jako jsou gradienty, váhy neuronových sítí a další data dostupné z trénovacího procesu.
 \end{itemize}
 \endinput

@@ -8,26 +8,26 @@ kde $y_i$ je konkrétní hodnota z přímého průchodu sítě na pozici $i$, $\
 
 \subsection{První návrh ztrátové funkce}
 
-První návrh pro trénování sítě byl rozdělit poměr výskytu pravých a falešných snímků při tréninku na $50:50$. Avšak i když se může řešení ztrátové funkce zdát kompletní, zdaleka není. Při experimentech se ukázalo, a teoretická představa tomu odpovídá, že toto tréninkové nastavení zcela nezabraňuje falešným detekcím i na neodpovídajících kanálech podobných klíčových bodů. Avšak přesné lokalizace bylo dosaženo, kanály ostatních tříd klíčových bodů dosahovaly při lokalizaci na svém maximu hodnoty blížící se $1.0$.
+První návrh pro trénování sítě byl rozdělit poměr výskytu pravých a falešných snímků při tréninku na $50:50$. I když se může řešení ztrátové funkce zdát kompletní, zdaleka není. Při experimentech se ukázalo, a teoretická představa tomu odpovídá, že toto tréninkové nastavení zcela nezabraňuje falešným detekcím i na neodpovídajících kanálech podobných klíčových bodů. Přestože přesné lokalizace bylo dosaženo, kanály ostatních tříd klíčových bodů dosahovaly při lokalizaci na svém maximu hodnoty blížící se $1,0$.
 
 \subsection{Pokus o adresování korektní klasifikace}
 
 Druhý návrh pro adresování korektní klasifikace mezi kanály bylo vytvořit set klíčových bodů, mezi kterými docházelo k detekci na neodpovídajících výstupních kanálech. Konkrétně se jednalo o třídy $\{0, 1, 5, 6, 9\}$ (viz. obrázek \ref{fig:synthetic_images}). Pravé snímky těchto bodů byly aplikovány jako falešné pro ostatní snímky z tohoto setu v poměru 25 \% k celému tréninku. Na snímcích se na základě manuální vizuální kontroly nevyskytovaly pozitivní detekce navzájem mezi sebou, čili to působilo jako řešení, které by mohlo vést ke zlepšení.
 
-I když tento přístup představil síti schopnost korektní klasifikace na daný set tříd, mezi kterými probíhala vzájemná detekce a neschopnost vzájemného odlišení, došlo k zajímavé anomálii - síť sice nabrala schopnost odlišit daný set klíčových bodů, avšak ztratila schopnost odlišení mezi vůbec si nepodobnými klíčovými body.
+I když tento přístup představil síti schopnost korektní klasifikace na daný set tříd, mezi kterými probíhala vzájemná detekce a neschopnost vzájemného odlišení, došlo k zajímavé anomálii -- síť sice nabrala schopnost odlišit daný set klíčových bodů, avšak ztratila schopnost odlišení mezi vůbec si nepodobnými klíčovými body.
 
 \subsection{Finální podoba ztrátové funkce}
 \label{subsec:Chapter473_final_loss}
 
-Finálně bylo vyvinuto řešení, které je univerzální a je použito ve všech modelech finálně implementovaných v této práci. V průběhu tréninku sítě byl proud trénovacích dat v následujících poměru:
+Finálně bylo vyvinuto řešení, které je univerzální a je použito ve všech modelech finálně implementovaných v této práci. V průběhu tréninku sítě byl proud trénovacích dat v následujícím poměru:
 \begin{enumerate}[label=(\Alph*)]
-    \item 50 \% \textbf{pravé snímky}, aplikovány na daný výstupní kanál s použitím MSE
-    \item 25 \% \textbf{falešné snímky}, aplikovány na daný výstupní kanál s použitím MSE mezi predikovanou výstupním kanálem a nulovou 2D skalární mapou
+    \item 50 \% \textbf{pravé snímky} -- aplikovány na daný výstupní kanál s použitím MSE.
+    \item 25 \% \textbf{falešné snímky} -- aplikovány na daný výstupní kanál s použitím MSE mezi predikovaným výstupním kanálem a nulovou 2D skalární mapou.
     \item 25 \% \textbf{snímky pro eliminaci detekcí} na ostatních 10 výstupních kanálech. Pravý snímek z datasetu se ve fázi tréninku modelu aplikuje na jakoukoli náhodnou třídu z ostatních 10 klíčových bodů. Ztrátová funkce je s pomocí masky aplikována podobně jako při falešných snímcích mezi výstupním kanálem a nulovou 2D skalární mapou, avšak pouze v daném rozsahu od klíčového bodu. Detekce na okolních oblastech ve snímku jsou tedy v tomto případě ignorovány.
 \end{enumerate}
 Po přidání případu (C) by se měla síť naučit korektně eliminovat detekce na nerelevantních výstupních kanálech. S případem (C) ale také v zájmu zachování udržení číselné stability, což je klíčové pro zajištění konzistentní a efektivní konvergence v procesu trénování, musíme aplikovat následující normalizaci:
 \begin{equation}
-loss(y_i, \hat{y}_i) = \frac{\sum_{i=1}^{N} [(y_i - \hat{y}_i)^2\times m_i]}{\sum_{i=1}^{N} m_i},
+loss(y_i, \hat{y}_i) = \frac{\sum_{i=1}^{N} [(y_i - \hat{y}_i)^2\times m_i]}{\sum_{i=1}^{N} m_i}\,,
 \end{equation}
 kde $m_i$ tvoří konkrétní binární hodnotu masky na indexu $i$, a tedy $\sum_{i=1}^{N} m_i$ počet pozitivních hodnot v masce, neboli počet bodů aplikovaných ve výpočtu ztrátové funkce. V případech (A) a (B) je to prakticky velikost výstupní mapy příznaků sítě, tj. výška$\times$šířka. V případě (C) se jedná o počet pozitivních hodnot masky.
 
@@ -41,7 +41,7 @@ Modul STN v rámci sítě U-Net udává potřebu uzpůsobit výpočet ztrátové
     \begin{equation}
     \begin{aligned}
     P(a_x, a_y) = & \max(0, a_x - \alpha) + \max(0, -\alpha - a_x) \\
-                  & + \max(0, a_y - \alpha) + \max(0, -\alpha - a_y),
+                  & + \max(0, a_y - \alpha) + \max(0, -\alpha - a_y)\,,
     \end{aligned}
     \end{equation}
     kde $(a_x, a_y)$ je transformovaná hodnota správného klíčového bodu dle matice ${\displaystyle \mathrm {A} }_\theta$ a $\alpha =$ 0,9 specifikuje hranice rozsahu transformovaného správného klíčového bodu.

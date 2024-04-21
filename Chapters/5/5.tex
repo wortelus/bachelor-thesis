@@ -4,11 +4,11 @@
 \subsection{Preprocessing dat}
 Funkce \texttt{tf.Dataset.map(lambda line: decode\_csv\_line(line))} tvoří první krok proudu dat při tréninku všech našich sítí. Mapovací funkce datasetu se stará o tyto kroky, v následujícím pořadí:
 \begin{enumerate}
-    \item \textbf{Náhodný výběr trénovacího způsobu} - pomocí pravidla $50:25:25$ je vybrán jeden ze 3 trénovacích způsobů popsaných blíž v kapitole \ref{subsec:Chapter473_final_loss}.
-    \item \textbf{Preprocessing a augmentace snímků} - snímky jsou načteny a augmentovány o náhodné změny popsané blíž v kapitole \ref{sec:Chapter3}.
-    \item \textbf{Generace mapy příznaků} - generace mapy příznaků pro relevantní zvolenou trénovací úlohu. V rámci tréninku sítě U-Net STN se tento krok provádí ve ztrátové funkci.
-    \item \textbf{Generace masky} - generace relevantní masky pro danou trénovací úlohu. V rámci tréninku sítě U-Net STN se tento krok provádí ve ztrátové funkci.
-    \item \textbf{Tvorba výstupu} - augmentovaný vstupní snímek, tak koplementární data do ztrátové funkce jsou výstupem mapovací funkce.
+    \item \textbf{Náhodný výběr trénovacího způsobu} -- pomocí pravidla $50:25:25$ je vybrán jeden ze 3 trénovacích způsobů popsaných blíž v kapitole \ref{subsec:Chapter473_final_loss}.
+    \item \textbf{Preprocessing a augmentace snímků} -- snímky jsou načteny a augmentovány o náhodné změny popsané blíž v kapitole \ref{sec:Chapter3}.
+    \item \textbf{Generace mapy příznaků} -- generace mapy příznaků pro relevantní zvolenou trénovací úlohu. V rámci tréninku sítě U-Net STN se tento krok provádí ve ztrátové funkci.
+    \item \textbf{Generace masky} -- generace relevantní masky pro danou trénovací úlohu. V rámci tréninku sítě U-Net STN se tento krok provádí ve ztrátové funkci.
+    \item \textbf{Tvorba výstupu} -- augmentovaný vstupní snímek, tak koplementární data do ztrátové funkce jsou výstupem mapovací funkce.
 \end{enumerate}
 
 Mapovací funkce datasetu použitých v této práci jsou k nalezení v příloze v souborech \texttt{map.py} a \texttt{map\_stn.py}.

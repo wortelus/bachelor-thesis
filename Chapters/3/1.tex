@@ -1,16 +1,16 @@
 \section{Analýza datasetu}
 \label{sec:Chapter31}
-Pro účely trénování našich konvolučních. neuronových sítí máme dostupný dodaný dataset částí LEGO modelu 42022 Hot Rod. Dataset tvoří syntetické vykreslené RGB obrázky ve formátu JPEG o velikosti $256\times256$ pixelů pro pravé a falešné snímky (syntetické snímky mají poloviční velikost $128\times128$). Snímky mají 3 barevné komponenty a každá komponenta je 8-bitová, čili barevná hloubka obrázků je 24 bitů, nebo 16 777 216 barev. Dataset je konstruován pro 11 vybraných klíčových bodů, kde každý klíčový bod chápeme jako svou vlastní klasifikační třídu. Pro každý klíčový bod máme dostupných 50 000 shluku informací, které jsou dostupny pro každou třídu klíčového bodu v CSV souboru. Mezi tyto informace patří:
+Pro účely trénování našich konvolučních neuronových sítí máme dostupný dodaný dataset snímků LEGO modelu 42022 Hot Rod. Dataset tvoří synteticky vykreslené RGB obrázky ve formátu JPEG o velikosti $256\times256$ pixelů pro pravé a falešné snímky (syntetické snímky mají poloviční velikost $128\times128$). Barevná hloubka obrázků je 24 bitů (16 777 216 barev). Dataset je konstruován pro 11 vybraných klíčových bodů, kde každý klíčový bod chápeme jako svou vlastní klasifikační třídu. Pro každý klíčový bod máme dostupných 50 000 shluků informací, které jsou dostupny pro každou třídu klíčového bodu v CSV souboru. Mezi tyto informace patří:
 \begin{enumerate}
-  \item \textbf{Pravý snímek} - $256\times256$ JPEG snímek se známou souřadnicí pro daný klíčový bod. Pravý snímek obsahuje daný model, či jeho část, a náhodné různorodé pozadí.
-  \item \textbf{Falešný snímek} - $256\times256$ JPEG snímek s potvrzeným nevyskytnutím daného klíčového bodu. Falešné snímky nabírají mnoha podob, a nemusí vůbec obsahovat daný model.
-  \item \textbf{Syntetický snímek} - $128\times128$ JPEG snímek, kde byl klíčový bod přetransformován do středu obrázku. K povšimnutí je, že tyto snímky obsahují model a černé pozadí.
+  \item \textbf{Pravý snímek} -- $256\times256$ JPEG snímek se známou souřadnicí pro daný klíčový bod. Pravý snímek obsahuje daný model, či jeho část, a náhodné různorodé pozadí.
+  \item \textbf{Falešný snímek} -- $256\times256$ JPEG snímek s potvrzeným nevyskytnutím daného klíčového bodu. Falešné snímky nabírají mnoha podob a nemusí vůbec obsahovat žádnou část daného modelu.
+  \item \textbf{Syntetický snímek} -- $128\times128$ JPEG snímek, kde byl klíčový bod přetransformován do středu obrázku. K povšimnutí je, že tyto snímky obsahují model a černé pozadí.
   \item (x, y) souřadnice klíčového bodu na pravém snímku
   \item Rotace mezi pravým a syntetickým snímkem klíčového bodu, rotace má počátek v bodě pozice klíčového bodu
   \item Uniformní poměr měřítka mezi pravým a syntetickým snímkem klíčového bodu
 \end{enumerate}
 
-(x, y) souřadnice jsou v nenormalizované formě vyskytující se pro klíčový bod počínající od levého horního rohu v rozsahu od 0 do 255 hodnot s plovoucí desetinnou čárkou. Pro každý snímek dané třídy klíčového bodu, které budeme označovat celočíselně od 0 do 10, je dána pouze informace ohledně daného klíčového bodu. Na snímku se ve skutečnosti může vyskytovat více tříd klíčových bodů. Nevýhodou tohoto datasetu je avšak že pro tyto další třídy už v daném snímku nemáme žádné informace. Tento problém je následně adresován v implementační části této práce.
+(x, y) souřadnice jsou v nenormalizované formě vyskytující se pro klíčový bod počínající od levého horního rohu v rozsahu od 0 do 255 hodnot s plovoucí desetinnou čárkou. Pro každý snímek dané třídy klíčového bodu, které budeme označovat celočíselně od 0 do 10, je dána pouze informace ohledně daného klíčového bodu. Na snímku se ve skutečnosti může vyskytovat více tříd klíčových bodů. Nevýhodou tohoto datasetu je avšak to, že pro tyto další třídy už v daném snímku nemáme žádné informace. Tento problém je následně adresován v implementační části této práce.
 
 
 
@@ -89,6 +89,6 @@ Pro účely trénování našich konvolučních. neuronových sítí máme dostu
 \label{fig:synthetic_images}
 \end{figure}
 
-Na obrázku \ref{fig:synthetic_images} je zřetelné, že se různé třídy klíčových bodů nacházejí i na vzájemně podobných nebo identických částí stavebnice modelu. Nejlepším příkladem může být klíčový bod 0 a klíčový bod 1. Klíčové body také i nabírají podobných tvarů, většinou kruhových. Tato povaha tříd klíčových bodů představuje jistou formu náročnosti pro modely strojového učení.
+Na obrázku \ref{fig:synthetic_images} je zřetelné, že se různé třídy klíčových bodů nacházejí i na vzájemně podobných nebo identických částech stavebnice modelu. Nejlepším příkladem může být klíčový bod 0 a klíčový bod 1. Klíčové body také i nabírají podobných tvarů, většinou kruhových. Tato povaha tříd klíčových bodů představuje jistou formu náročnosti pro modely strojového učení.
 
 \endinput

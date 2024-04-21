@@ -4,7 +4,7 @@ V každém bloku se nachází dvě konvoluční operace o velikosti filtru $3\ti
 
 Pro konvoluční vrstvy s aktivační funkcí ReLU byly použity kernelové inicializéry typu \textit{He Normal}, které jsou často používány pro vrstvy s aktivační funkcí ReLU \cite{relu_henormal} a je to také i konzistentní nastavení s například oficiální implementací U-Net++ \cite{unetpp_github}. 
 
-V blocích enkodéru se v naší implementaci používá $2\times2$ vrstva typu max pooling a $2\times2$ vrstva typu up-sampling zase v blocích dekodéru. Vrstva typu up-sampling tvoří náhradu pro původní vrstvu typu transpose. Toto rozhodnutí prane z úsudku založeném na uspokojivých výsledcích experimentálních modelů. 
+V blocích enkodéru se v naší implementaci používá $2\times2$ vrstva typu max pooling a $2\times2$ vrstva typu up-sampling zase v blocích dekodéru. Vrstva typu up-sampling tvoří náhradu pro původní vrstvu typu transpose. Toto rozhodnutí plyne z úsudku založeného na uspokojivých výsledcích experimentálních modelů. 
 
 \begin{figure}[ht]
     \centering

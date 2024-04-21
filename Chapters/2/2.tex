@@ -1,7 +1,18 @@
 \section{U-Net}
 \label{sec:Chapter22}
 
-\begin{figure}[ht]
+\textbf{U-Net} je architektura CNN poprvé představena v roce 2015 v literatuře \cite{unet}. Jedná se o architekturu konvoluční neuronové sítě hojně využívanou pro segmentační úlohy, avšak je používána i pro lokalizační, klasifikační a další problémy analýzy obrazu \cite{unet_success}. Architektura sítě U-Net spočívá ve třech sémantických částí, kde každá část zaznamenává jiné typy informací získaných z vstupních obrazů - enkodér, krk (ang. bottleneck) a dekodér. Závěrečná čtvrtá vrstva je specificky navržena a uzpůsobena pro konkrétní úkol, pro který je síť navržena.
+
+\subsection{Stavba CNN sítě}
+\label{subsec:Chapter221}
+
+\textbf{Enkodér} sestává ze sémantických vrstev konvolučních bloků, kde každou sémantickou vrstvou sítě se zdvojnásobuje počet filtrů a rozměr obrazu se naopak dělí dvěma pomocí $2\times2$ max pooling vrstev na koncích bloků enkodéru. Cílem enkodéru je zachytit kontextuální rysy vstupního obrazu \cite{unet_success}.
+
+\textbf{Krk (ang. bottleneck)} je prvek uprostřed sítě U-Net, která propojuje enkodér na jeho konci a dekodér na jeho počátku. Tato část sítě obsahuje nejmenší velikost obrazu, zato maximální počet filtrů v konvolučních vrstvách.
+
+\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstup z předchozího bloku předchází $2\times2$ vrstva, v orig. lit. označená jako \enquote{up-convolution}. Ve skutečnosti se jedná o vrstvu $2\times2$ typu up-sampling následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
+
+\begin{figure}[H]
 \centering
 \definecolor{boxcol}{rgb}{0.7,0.8,1.0}
 \begin{tikzpicture}[
@@ -132,17 +143,6 @@
 \label{fig:unetdiagram}
 
 \end{figure}
-
-\textbf{U-Net} je architektura CNN poprvé představena v roce 2015 v literatuře \cite{unet}. Jedná se o architekturu konvoluční neuronové sítě hojně využívanou pro segmentační úlohy, avšak je používána i pro lokalizační, klasifikační a další problémy analýzy obrazu \cite{unet_success}. Architektura sítě U-Net spočívá ve třech sémantických částí, kde každá část zaznamenává jiné typy informací získaných z vstupních obrazů - enkodér, krk (ang. bottleneck) a dekodér. Závěrečná čtvrtá vrstva je specificky navržena a uzpůsobena pro konkrétní úkol, pro který je síť navržena.
-
-\subsection{Stavba CNN sítě}
-\label{subsec:Chapter221}
-
-\textbf{Enkodér} sestává ze sémantických vrstev konvolučních bloků, kde každou sémantickou vrstvou sítě se zdvojnásobuje počet filtrů a rozměr obrazu se naopak dělí dvěma pomocí $2\times2$ max pooling vrstev na koncích bloků enkodéru. Cílem enkodéru je zachytit kontextuální rysy vstupního obrazu \cite{unet_success}.
-
-\textbf{Krk (ang. bottleneck)} je prvek uprostřed sítě U-Net, která propojuje enkodér na jeho konci a dekodér na jeho počátku. Tato část sítě obsahuje nejmenší velikost obrazu, zato maximální počet filtrů v konvolučních vrstvách.
-
-\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstup z předchozího bloku předchází $2\times2$ vrstva, v orig. lit. označená jako \enquote{up-convolution}. Ve skutečnosti se jedná o vrstvu $2\times2$ typu up-sampling následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
 
 Všechny tyto 3 extrační části zpravidla obsahují dvě $3\times3$ konvoluční vrstvy. Původně v orig. lit. s odsazením typu valid padding a (1, 1) krokem (ang. stride). Mívají ReLU aktivační funkcí, obdobně jako v původní architektuře \cite{unet}. Postupem síť U-Net zlepšuje své receptivní pole, a v hlubších vrstvách se zlepšuje v zachycování sémantických a kontextuálních informací. Ovšem postupem síť také ztrácí lokalizační informace, pro které byly do sítě U-Net přidány také skokové propojení (tj. skip connection) mezi odpovídajícími vrstvami enkodéru a dekodéru \cite{unet_success}.
 

@@ -1,9 +1,7 @@
 \section{Attention U-Net}
 \label{sec:Chapter24}
 
-Vylepšení sítě U-Net o \textbf{pozornostní bloky} či brány (AG, tj. attention gates) bylo představeno v literatuře \cite{attentionunet} roku 2018. Základní myšlenkou pozornostních bloků je umožnit síti lépe se soustředit na relevantní části vstupního obrazu a současně se naučit ignorovat irelevantní části. Vylepšení pozornostních bloků bylo přidáno do části dekodéru sítě U-Net. Pozornostní bloky přijímají 2 vstupy, kde jeden z nich je bránový vstup $g$ z předchozího bloku a druhý je skokové propojení z odpovídající vrstvy enkodéru $x^l$. Pozornostní blok je detailněji vyobrazen na obrázku \ref{fig:attention_unet}.
-
-Aby byla zajištěna kompatibilita, jsou rozměry bránového signálu $g$ a skokového propojení z výstupu relevantního bloku enkodéru $x^l$ přizpůsobeny na rozměry bránového signálu $H_g \times W_g \times D_g$. Prvky jsou po aplikaci oddělených konvolucích sečteny na elementární úrovni a následně použity jako vstup do konvolučních vrstev ReLU a sigmoid. Konvoluční vrstva s aplikační funkcí sigmoid generuje koeficienty pozornosti ($\alpha_i$).
+Vylepšení sítě U-Net o \textbf{pozornostní bloky} či brány (AG, tj. attention gates) bylo představeno v literatuře \cite{attentionunet} roku 2018. Základní myšlenkou pozornostních bloků je umožnit síti lépe se soustředit na relevantní části vstupního obrazu a současně se naučit ignorovat irelevantní části. Vylepšení pozornostních bloků bylo přidáno do části dekodéru sítě U-Net. Pozornostní bloky přijímají 2 vstupy, kde jeden z nich je bránový vstup $g$ z předchozího bloku a druhý je skokové propojení z odpovídající vrstvy enkodéru $x^l$. Pozornostní blok je detailněji vyobrazen na obrázku \ref{fig:attention_unet}:
 
 \begin{figure}[H]
 \centering
@@ -78,6 +76,8 @@ Aby byla zajištěna kompatibilita, jsou rozměry bránového signálu $g$ a sko
 \caption[Pozornostní blok sítě Attention U-Net]{Pozornostní blok sítě Attention U-Net, kde $g$ je bránový vstup, $x^l$ je vstup z skokového propojení, $\psi$ je konvoluční operace s trénovatelnými parametry. $\hat{x}^l$ je finálně výsledek vzájemného součinu pozornostních koeficientů $\alpha$ a $x^l$. Vytvořeno podle \cite{attentionunet}. }
 \label{fig:attention_unet}
 \end{figure}
+
+Aby byla zajištěna kompatibilita, jsou rozměry bránového signálu $g$ a skokového propojení z výstupu relevantního bloku enkodéru $x^l$ přizpůsobeny na rozměry bránového signálu $H_g \times W_g \times D_g$. Prvky jsou po aplikaci oddělených konvolucích sečteny na elementární úrovni a následně použity jako vstup do konvolučních vrstev ReLU a sigmoid. Konvoluční vrstva s aplikační funkcí sigmoid generuje koeficienty pozornosti ($\alpha_i$).
 
 Mechanismus pozornosti funguje tak, že se na kombinované rysy aplikuje aktivace sigmoid pro generování koeficientů pozornosti (\(\alpha_i\), kde \(\alpha_i \in (0, 1)\)), které účinně škálují vstupní rysy tím, že zvýrazňují oblasti zájmu a potlačují méně relevantní oblasti. Tohoto selektivního zvýraznění je dosaženo prostřednictvím elementárního násobení koeficientů pozornosti s rysy vstupu $x^l$, což zajišťuje, že se síť zaměřuje na relevantní informace z první části sítě. Toto tvoří výstup pozornostních bloků \cite{attentionunet}.
 

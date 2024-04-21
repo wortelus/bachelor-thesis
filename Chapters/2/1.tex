@@ -6,12 +6,12 @@ Pro lokalizaci bodů se používají vzájemné rozdíly Gaussovy funkce s různ
 
 Na základě tohoto přístupu jsou následně klíčové body transformovány do deskriptorů, které jsou robustní vůči změnám škál, rotace a menším změnám úhlu pohledu. Deskriptory klíčových bodů jsou invariantní díky směru vycházejících z charakteristik DoG. Jsou také velmi distinktivní, tzn. vykazující rozdíly oproti ostatním stabilním deskriptorům nalezených na obrázku, což vede k nezaměnitelnosti a následně i například spolehlivé párové identifikaci mezi více obrázky.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=1.0\textwidth,keepaspectratio]{Figures/sift_dog.pdf}
-\caption[Vizuální reprezentace výpočtu DoG v metodě SIFT]{Vizuální reprezentace výpočtu DoG v metodě SIFT. Převzato z \cite{sift}.}
-\label{fig:sift_dog}
-\end{figure}
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=1.0\textwidth,keepaspectratio]{Figures/sift_dog.pdf}
+% \caption[Vizuální reprezentace výpočtu DoG v metodě SIFT]{Vizuální reprezentace výpočtu DoG v metodě SIFT. Převzato z \cite{sift}.}
+% \label{fig:sift_dog}
+% \end{figure}
 
 Tato distinktivnost a robustnost SIFT deskriptorů umožňuje efektivní vyhledávání a párování klíčových bodů mezi obrázky, což je klíčové pro mnoho aplikací v oblasti počítačového vidění, jako je rozpoznávání scén a objektů či sledování pohybu. Díky těmto vlastnostem se SIFT stal základním stavebním kamenem pro mnohé následující výzkumy a aplikace v oblasti rozpoznávání obrazu \cite{sift}.
 
