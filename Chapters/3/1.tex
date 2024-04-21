@@ -5,12 +5,12 @@ Pro účely trénování našich konvolučních. neuronových sítí máme dostu
   \item \textbf{Pravý snímek} - $256\times256$ JPEG snímek se známou souřadnicí pro daný klíčový bod. Pravý snímek obsahuje daný model, či jeho část, a náhodné různorodé pozadí.
   \item \textbf{Falešný snímek} - $256\times256$ JPEG snímek s potvrzeným nevyskytnutím daného klíčového bodu. Falešné snímky nabírají mnoha podob, a nemusí vůbec obsahovat daný model.
   \item \textbf{Syntetický snímek} - $128\times128$ JPEG snímek, kde byl klíčový bod přetransformován do středu obrázku. K povšimnutí je, že tyto snímky obsahují model a černé pozadí.
-  \item (x,y) souřadnice klíčového bodu na pravém snímku
+  \item (x, y) souřadnice klíčového bodu na pravém snímku
   \item Rotace mezi pravým a syntetickým snímkem klíčového bodu, rotace má počátek v bodě pozice klíčového bodu
   \item Uniformní poměr měřítka mezi pravým a syntetickým snímkem klíčového bodu
 \end{enumerate}
 
-(x,y) souřadnice jsou v nenormalizované formě vyskytující se pro klíčový bod počínající od levého horního rohu v rozsahu od 0 do 255 hodnot s plovoucí desetinnou čárkou. Pro každý snímek dané třídy klíčového bodu, které budeme označovat celočíselně od 0 do 10, je dána pouze informace ohledně daného klíčového bodu. Na snímku se ve skutečnosti může vyskytovat více tříd klíčových bodů. Nevýhodou tohoto datasetu je avšak že pro tyto další třídy už v daném snímku nemáme žádné informace. Tento problém je následně adresován v implementační části této práce.
+(x, y) souřadnice jsou v nenormalizované formě vyskytující se pro klíčový bod počínající od levého horního rohu v rozsahu od 0 do 255 hodnot s plovoucí desetinnou čárkou. Pro každý snímek dané třídy klíčového bodu, které budeme označovat celočíselně od 0 do 10, je dána pouze informace ohledně daného klíčového bodu. Na snímku se ve skutečnosti může vyskytovat více tříd klíčových bodů. Nevýhodou tohoto datasetu je avšak že pro tyto další třídy už v daném snímku nemáme žádné informace. Tento problém je následně adresován v implementační části této práce.
 
 
 

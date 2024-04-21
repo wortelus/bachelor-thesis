@@ -11,7 +11,7 @@
 
 Architektura STN je jedním z možných přístupů jak představit spaciální invarianci do klasických konvolučních neuronových sítí představená v literatuře \cite{stn} roku 2015. Klasické konvoluční neuronové sítě pomocích svých vrstev typu max pooling \footnote{v síti U-Net nacházející se v enkodéru.} tvoří jistou spaciální invarianci proti různým změnám perspektivy, avšak pouze v limitovaně. Výrazné transformace vstupního obrazu mívá detrimentální účinek na výslednou robustnost sítě.
 
-Pro adresování této limitace týkající se prostorové invariance vznikla neuronová síť s prostorovým transformerem - \textbf{STN (ang. Spatial Transformer Network)}. Z původního hlediska se často nejedná o hotové řešení, avšak o diferenciovatelný modul schopný být přidán do již existující architektury konvolučních neuronových sítí pro zvýšení odolnosti proti těmto prostorovým změnám a transformacím. Oproti klasickým vrstvám typu max pooling je tato síť schopna se naučit a aktivně transformovat vstupní obraz. Modul také díky své diferenciovatelnosti může být triviálně natrénován pomocí klasické zpětné propagace. Modul STN sestává z několika částí (viděných na obrázku \ref{fig:stn_overview}):
+Pro adresování této limitace týkající se prostorové invariance vznikla neuronová síť s prostorovým transformerem -- \textbf{STN (ang. Spatial Transformer Network)}. Z původního hlediska se často nejedná o hotové řešení, avšak o diferenciovatelný modul schopný být přidán do již existující architektury konvolučních neuronových sítí pro zvýšení odolnosti proti těmto prostorovým změnám a transformacím. Oproti klasickým vrstvám typu max pooling je tato síť schopna se naučit a aktivně transformovat vstupní obraz. Modul také díky své diferenciovatelnosti může být triviálně natrénován pomocí klasické zpětné propagace. Modul STN sestává z několika částí (viděných na obrázku \ref{fig:stn_overview}):
 
 \subsection{Lokalizační síť}
 
@@ -81,16 +81,16 @@ kde $(x_i^s, y_i^s)$ je daná pozice na původním obrazu kterou počítáme pom
 
 \subsection{Vzorkovník}
 
-Pro provedení prostorové transformace na originální snímek modulu STN zde máme poslední část známou jako \textbf{vzorkovník} (v originální ang. podobě sampler). Vzorkovník společně s vstupním obrazem (nebo mapou příznaků) a vzorkovým polem generuje finální snímek modulu STN s aplikovanými prostorovými změnami. Vzorkovník využije vzorkové pole a s pomocí bilineární interpolace převede hodnoty pixelů z originálního snímku na transformovaný snímek finální, podobně jak je znázorněno na obrázku \ref{fig:stn_grid}. Je dobré podotknout, že velikost vzorkového pole přímo ovlivňuje velikost výstupního snímku. Pokud má snímek více kanálů, je transformace aplikována identicky na všechny kanály vstupního snímku \cite{stn_medium_3}.
+Pro provedení prostorové transformace na originální snímek modulu STN zde máme poslední část známou jako \textbf{vzorkovník} (v originální ang. podobě sampler). Vzorkovník společně se vstupním obrazem (nebo mapou příznaků) a vzorkovým polem generuje finální snímek modulu STN s aplikovanými prostorovými změnami. Vzorkovník využije vzorkové pole a s pomocí bilineární interpolace převede hodnoty pixelů z originálního snímku na transformovaný snímek finální, podobně jak je znázorněno na obrázku \ref{fig:stn_grid}. Je dobré podotknout, že velikost vzorkového pole přímo ovlivňuje velikost výstupního snímku. Pokud má snímek více kanálů, je transformace aplikována identicky na všechny kanály vstupního snímku \cite{stn_medium_3}.
 
 Funkce vzorkovníku může být zjednodušeně pro mapování hodnot přímo na základě nejbližší lokace bez použití interpolace znázorněna takto:
 \begin{equation}
-    V_i^c = \sum_{n=1}^{H} \sum_{m=1}^{W} U_{nm}^c \delta(\lfloor x_s^i + 0.5 \rfloor - m) \delta(\lfloor y_s^i + 0.5 \rfloor - n),
+    V_i^c = \sum_{n=1}^{H} \sum_{m=1}^{W} U_{nm}^c \delta(\lfloor x_s^i + 0.5 \rfloor - m) \delta(\lfloor y_s^i + 0.5 \rfloor - n)\,,
 \label{eq:stn_sampler_int}
 \end{equation}
 kde se zdrojové pozice $(x_i^s, y_i^s)$ mapují na výsledné pozice $(x_i^t, y_i^t)$ pro $V_i^c$, $U_{nm}^c$ je hodnota pixelu ve vstupním obrazu na dané pozici $(n, m)$ v kanálu $c$, $\delta$ je Kroneckerovo delta a pomocí posunu o hodnotě 0.5 se pozice zaokrouhlí na nejbližší celé číslo. Pro verzi s použitím bilineární interpolace se převod na základě předchozí funkce \ref{eq:stn_sampler_int} dá formulovat následovně:
 \begin{equation}
-    V_i^c = \sum_{n=1}^{H} \sum_{m=1}^{W} U_{nm}^c \max(0, 1 - |x_s^i - m|) \max(0, 1 - |y_s^i - n|).
+    V_i^c = \sum_{n=1}^{H} \sum_{m=1}^{W} U_{nm}^c \max(0, 1 - |x_s^i - m|) \max(0, 1 - |y_s^i - n|)\,.
 \label{eq:stn_sampler_bi}
 \end{equation}
 

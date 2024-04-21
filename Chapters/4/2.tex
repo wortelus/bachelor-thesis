@@ -19,7 +19,8 @@ V blocích enkodéru se v naší implementaci používá $2\times2$ vrstva typu 
         ytick={0,1,...,5},
         grid=major,
     ]
-    \addplot[blue,smooth,line width=2pt] {max(0, x)};
+    
+    \addplot[blue,line width=2pt] {max(0, x)};
     \end{axis}
     \end{tikzpicture}
     \caption[Aktivační funkce ReLU]{Aktivační funkce ReLU}

@@ -1,7 +1,7 @@
 \section{U-Net}
 \label{sec:Chapter22}
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \definecolor{boxcol}{rgb}{0.7,0.8,1.0}
 \begin{tikzpicture}[
@@ -119,11 +119,11 @@
 
 
   \matrix [draw,below left, yshift=-0.5cm] at (current bounding box.south east) {
-      \draw [bluearrow] (0,0) -- (0.5,0) node[right] {3x3 Konvoluce + ReLU}; \\
-      \draw [redarrow] (0,0) -- (0.5,0) node[right] {2x2 Max Pooling}; \\
+      \draw [bluearrow] (0,0) -- (0.5,0) node[right] {$3\times3$ Konvoluce + ReLU}; \\
+      \draw [redarrow] (0,0) -- (0.5,0) node[right] {$2\times2$ Max Pooling}; \\
       \draw [grayarrow] (0,0) -- (0.5,0) node[right] {Propojení \& Oříznutí}; \\
-      \draw [greenarrow] (0,0) -- (0.5,0) node[right] {2x2 Up-sampling + 2x2 Konvoluce}; \\
-      \draw [cyanarrow] (0,0) -- (0.5, 0) node[right] {1x1 Konvoluce}; \\
+      \draw [greenarrow] (0,0) -- (0.5,0) node[right] {$2\times2$ Up-sampling + $2\times2$ Konvoluce}; \\
+      \draw [cyanarrow] (0,0) -- (0.5, 0) node[right] {$1\times1$ Konvoluce}; \\
   };
   
 \end{tikzpicture}
@@ -133,20 +133,20 @@
 
 \end{figure}
 
-\textbf{U-Net} je architektura CNN poprvé představena v roce 2015 v literatuře \cite{unet}. Jedná se o architekturu konvoluční neuronové sítě, hojně využívanou pro segmentační úlohy, avšak je používána i pro lokalizační, klasifikační a další problémy analýzy obrazu \cite{unet_success}. Architektura sítě U-Net spočívá ve třech sémantických částí, kde každá část zaznamenává jiné typy informací získaných z vstupních obrazů - enkodér, krk (ang. bottleneck) a dekodér. Závěrečná, čtvrtá vrstva je specificky navržena a uzpůsobena pro konkrétní úkol, pro který je síť navržena.
+\textbf{U-Net} je architektura CNN poprvé představena v roce 2015 v literatuře \cite{unet}. Jedná se o architekturu konvoluční neuronové sítě hojně využívanou pro segmentační úlohy, avšak je používána i pro lokalizační, klasifikační a další problémy analýzy obrazu \cite{unet_success}. Architektura sítě U-Net spočívá ve třech sémantických částí, kde každá část zaznamenává jiné typy informací získaných z vstupních obrazů - enkodér, krk (ang. bottleneck) a dekodér. Závěrečná čtvrtá vrstva je specificky navržena a uzpůsobena pro konkrétní úkol, pro který je síť navržena.
 
 \subsection{Stavba CNN sítě}
 \label{subsec:Chapter221}
 
-\textbf{Enkodér} sestává ze sémantických vrstev konvolučních bloků, kde každou sémantickou vrstvou sítě se zdvojnásobuje počet filtrů a rozměr obrazu se naopak dělí dvěma pomocí 2x2 max pooling vrstev na koncích bloků enkodéru. Cílem enkodéru je zachytit kontextuální rysy vstupního obrazu \cite{unet_success}.
+\textbf{Enkodér} sestává ze sémantických vrstev konvolučních bloků, kde každou sémantickou vrstvou sítě se zdvojnásobuje počet filtrů a rozměr obrazu se naopak dělí dvěma pomocí $2\times2$ max pooling vrstev na koncích bloků enkodéru. Cílem enkodéru je zachytit kontextuální rysy vstupního obrazu \cite{unet_success}.
 
 \textbf{Krk (ang. bottleneck)} je prvek uprostřed sítě U-Net, která propojuje enkodér na jeho konci a dekodér na jeho počátku. Tato část sítě obsahuje nejmenší velikost obrazu, zato maximální počet filtrů v konvolučních vrstvách.
 
-\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstupy do sémantických vrstev dekodérů z předchozích částí sítě předchází $2\times2$ vrstvy, kterým se v orig. literatuře říká up-convolution. Ve skutečnosti se jedná o vrstvu 2x2 typu up-sampling, následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
+\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstup z předchozího bloku předchází $2\times2$ vrstva, v orig. lit. označená jako \enquote{up-convolution}. Ve skutečnosti se jedná o vrstvu $2\times2$ typu up-sampling následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
 
-Všechny tyto 3 extrační části zpravidla obsahují dvě 3x3 konvoluční vrstvy, zpravidla s odsazením typu valid padding a (1, 1) krokem (ang. stride), aplikovány následně po sobě s ReLU aktivační funkcí, obdobně jako v původní architektuře \cite{unet}. Postupem síť U-Net zlepšuje své receptivní pole, a v hlubších vrstvách se zlepšuje v zachycování sémantických a kontextuálních informací. Ovšem postupem síť také ztrácí lokalizační informace, pro které byly do sítě U-Net přidány také skokové propojení (tj. skip connection) mezi odpovídajícími vrstvami enkodéru a dekodéru \cite{unet_success}.
+Všechny tyto 3 extrační části zpravidla obsahují dvě $3\times3$ konvoluční vrstvy. Původně v orig. lit. s odsazením typu valid padding a (1, 1) krokem (ang. stride). Mívají ReLU aktivační funkcí, obdobně jako v původní architektuře \cite{unet}. Postupem síť U-Net zlepšuje své receptivní pole, a v hlubších vrstvách se zlepšuje v zachycování sémantických a kontextuálních informací. Ovšem postupem síť také ztrácí lokalizační informace, pro které byly do sítě U-Net přidány také skokové propojení (tj. skip connection) mezi odpovídajícími vrstvami enkodéru a dekodéru \cite{unet_success}.
 
-Těmito fundamentálními částmi sítě U-Net vzniká vizuální podoba písmenu 'U', odkud pochází jeho název. Velikost sítě U-Net díky své symetrické a sémanticky jednoznačné architektuře může být zmenšena či zvětšena. Například v obrázku \ref{fig:unetdiagram} je síť sestavena ze 3 bloku enkodéru a dekodéru, avšak často se používá i velikost se 4 bloky (jako např. v originální literatuře \cite{unet}) nebo jiným počtem.
+Těmito fundamentálními částmi sítě U-Net vzniká vizuální podoba písmena 'U', odkud pochází název sítě. Velikost sítě U-Net díky své symetrické a sémanticky jednoznačné architektuře může být zmenšena či zvětšena. Například v obrázku \ref{fig:unetdiagram} je síť sestavena ze 3 bloku enkodéru a dekodéru, avšak často se používá i velikost se 4 bloky (jako např. v originální literatuře \cite{unet}) nebo jiným počtem.
 
 \subsection{Výstup CNN sítě}
 \label{subsec:Chapter222}
@@ -162,6 +162,6 @@ Je důležité poznamenat, že v případě více než dvou tříd segmentace se
 
 U-Net se stal hojně používanou architekturou, kterou dnes můžeme nalézt i např. v biomedicínském inženýrství \cite{unet_success} nebo i difuzních modelech pro syntézi vysoko-rozměrových obrázků \cite{stablediffusion}.
 
-Za rok 2022 se sítě U-Net oproti předchozím letům velmi rozšířily, a např. v medicíně byly využity převážně pro segmentaci a klasifikaci. Avšak sítě U-Net byly schopny být aplikovány i na podobné problémy počítačového vidění zahrnující, ale neomezující se na rekonstrukce, detekce, deformační obrazová registrace\footnote{Problém mapovaní/transformace lehce deformovaného či posunutého obrazu na obraz druhý \cite{unet_registration}.}, odšumění či další. V roce 2022 dosáhl U-Net dle zmíněné literatury téměř 3 tisíc vědeckých článků za rok, což je například trojnásobně vyšší než před dvěma lety v roce 2020 \cite{unet_success}.
+Za rok 2022 se sítě U-Net oproti předchozím letům velmi rozšířily a např. v medicíně byly využity převážně pro segmentaci a klasifikaci. Avšak sítě U-Net byly schopny být aplikovány i na podobné problémy počítačového vidění, které zahrnují, ale neomezují se na rekonstrukce, detekce, deformační obrazová registrace\footnote{Problém mapovaní/transformace lehce deformovaného či posunutého obrazu na obraz druhý \cite{unet_registration}.}, odšumění či další. V roce 2022 dle zmíněné literatury bylo ocitováno téměř 3 tisíce vědeckých článků za rok, což je například trojnásobně vyšší počet než před dvěma lety v roce 2020 \cite{unet_success}.
 
 \endinput

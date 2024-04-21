@@ -1,11 +1,11 @@
 \section{ResUNet-a}
 \label{sec:Chapter25}
 
-ResUNet-a je bohaté rozšířeni původní sítě U-Net o hned několik změn, poprvé představeno v \cite{resuneta} roku 2019. Síť je obohacena o \textbf{reziduální bloky} (představeny v \cite{residualblocks}), \textbf{dilatované konvoluce}, \textbf{PSP pooling} (představen v \cite{psp}) vrstvy a \textbf{multi-taskové učení}. Síť je také v této literatuře trénována na své adaptaci Diceovy loss funkce. Vysoko-úrovňová podoba sítě je představena na obrázku \ref{fig:resuneta_overview}.
+ResUNet-a je bohaté rozšířeni původní sítě U-Net o hned několik změn, poprvé představeno v literatuře \cite{resuneta} roku 2019. Síť je obohacena o \textbf{reziduální bloky} (představeny v \cite{residualblocks}), \textbf{dilatované konvoluce}, \textbf{PSP pooling} (představeny v \cite{psp}) vrstvy a \textbf{multi-taskové učení}. Síť je také v této literatuře trénována na své adaptaci Diceovy loss funkce. Vysoko-úrovňová podoba sítě je představena na obrázku \ref{fig:resuneta_overview}.
 
-\textbf{Reziduální bloky} jsou zde použity namísto klasických bloků U-Net jak v enkodéru, tak v dekodéru původní architektury U-Net. Slouží pro adresování problému explodujících či ztrácejících se gradientů při fázi učení hlubokých sítí. Do reziduálních bloků jsou také přidány dilatované konvoluce, které zvyšují receptivní pole bez navýšení parametrů sítě. Hodnoty dilatací jsou ve vrstvách rozděleny různě pro zachycení několika velikostí receptivního pole. Vrstvy vně reziduálních bloků sdílí stejný počet filtrů, počet filtrů v bloku se samozřejmě hloubkou enkodéru zdvojnásobuje a dekodéru dělí dvěma, jako v původní síti U-Net.
+\textbf{Reziduální bloky} jsou zde použity namísto klasických bloků U-Net jak v enkodéru, tak v dekodéru původní architektury U-Net. Slouží pro adresování problému explodujících či ztrácejících se gradientů při fázi učení hlubokých sítí. Do reziduálních bloků jsou také přidány dilatované konvoluce, které zvyšují receptivní pole bez navýšení parametrů sítě. Hodnoty dilatací jsou ve vrstvách rozděleny různě pro zachycení několika velikostí receptivního pole. Vrstvy uvnitř reziduálních bloků sdílí stejný počet filtrů, počet filtrů v bloku se samozřejmě hloubkou enkodéru zdvojnásobuje a dekodéru dělí dvěma, jako v původní síti U-Net.
 
-Vrstvy typu \textbf{PSP pooling} (Pyramid Scheme Parsing) se nacházejí namísto krku sítě a před $1\times1$ konvoluční vrstvou pro finální segmentaci sítě ResUNet-a (viděných na obrázku \ref{fig:resuneta_overview}). Tyto bloky slouží pro zachycení kontextuálních informací na různých škálách. Vstupní mapy příznaků (ang. feature maps) jsou v několika větvích různě zmenšeny v rozměrech a následně opět zvětšeny do původní velikosti. Tyto větvě jsou následně spojeny do společného výstupu na ose filtrů. Je nutno podotknout, že PSP bloky jsou také konstruovány reziduálně.
+Vrstvy typu \textbf{PSP pooling} (Pyramid Scheme Parsing) se nacházejí namísto krku sítě a před $1\times1$ konvoluční vrstvou pro finální segmentaci sítě ResUNet-a (viděných na obrázku \ref{fig:resuneta_overview}). Tyto bloky slouží pro zachycení kontextuálních informací na různých škálách. Vstupní mapy příznaků (ang. feature maps) jsou v několika větvích různě zmenšeny v rozměrech a následně opět zvětšeny do původní velikosti. Tyto větvě jsou následně zřetězeny do společného výstupu na ose filtrů. Je nutno podotknout, že PSP bloky jsou také konstruovány reziduálně.
 
 \begin{figure}[H]
 \centering
@@ -18,7 +18,7 @@ Vrstvy typu \textbf{PSP pooling} (Pyramid Scheme Parsing) se nacházejí namíst
 \begin{enumerate}
     \item Segmentační masky
     \item Hranové masky, pro zlepšení pochopení rozsahu segmentační úlohy
-    \item Vzdálenostní masky, zlepšující \enquote{propojení} topologického uspořádání mezi třídami na obrazu, jako je např. mezi autem a cestou na které stojí. V orig. lit. zmíněno např. segmentační maska pro cestu s "dírou" v místě, kde má být auto. Oba tyto objekty zároveň panují jako vlastní třídy součástí sítě.
+    \item Vzdálenostní masky, zlepšující \enquote{propojení} topologického uspořádání mezi třídami na obrazu, jako je např. mezi autem a cestou na které stojí. V orig. lit. zmíněná např. segmentační maska pro cestu s \enquote{dírou} v místě, kde má být auto. Oba tyto objekty zároveň panují jako vlastní třídy součástí sítě.
     \item Výstupu obrázku v barevném modelu HSV
 \end{enumerate}
 \endinput

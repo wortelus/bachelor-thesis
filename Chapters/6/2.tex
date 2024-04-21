@@ -8,11 +8,11 @@ Jako obecná metrika výkonu našich modelů jako celku může být zvolena jako
         \toprule
         Model & Průměrná chyba $\pm$ směrodatná odchylka & Variační koeficient \\
         \midrule
-        U-Net & 0.769738 $\pm$ 1.327877 & 1.725102 \\
-        U-Net++ bez HS & 0.691072 $\pm$ 1.201024 & 1.737914 \\
-        U-Net++ s HS & 0.817158 $\pm$ 1.349039 & 1.650890 \\
-        U-Net STN 3-parametrový & 1.024144 $\pm$ 1.075344 & 1.049993 \\
-        U-Net STN 6-parametrový & 1.056580 $\pm$ 1.080963 & 1.023078 \\
+        U-Net & 0.77 $\pm$ 1.33 & 1.73 \\
+        U-Net++ bez HS & 0.69 $\pm$ 1.20 & 1.74 \\
+        U-Net++ s HS & 0.82 $\pm$ 1.35 & 1.65 \\
+        U-Net STN 3-parametrový & 1.02 $\pm$ 1.08 & 1.05 \\
+        U-Net STN 6-parametrový & 1.06 $\pm$ 1.08 & 1.02 \\
         \bottomrule   
     \end{tabular}
     \caption[Průměrná chyba a směrodatná odchylka trénovaných modelů]{Průměrná chyba a směrodatná odchylka trénovaných modelů mezi všemi kanály. Jednotka je Euklidová vzdálenost v pixelech na 128$\times$128 snímcích.}
@@ -26,9 +26,9 @@ Model \textbf{U-Net++} se avšak zřetelně neodlišil procentuálně, jak bylo 
     \centering
     \begin{tabular}{lrr}
         \toprule
-        Model & Průměrná chyba $\pm$ směrodatná odchylka & Variační koeficient \\
+        Model & Prům. chyba $\pm$ směr. odchylka & Var. koeficient \\
         \midrule
-        U-Net++ s HS a průměrem výstupů & 1.104677 $\pm$ 2.007999 & 1.817725 \\
+        U-Net++ s HS a průměrem výstupů & 1.10 $\pm$ 2.01 & 1.82 \\
     \end{tabular}
     \caption[Průměrná chyba a směrodatná odchylka modelu původní sítě U-Net++ s HS]{Průměrná chyba a směrodatná odchylka modelu U-Net++ s HS a průměrovanou výstupní mapou.}
     \label{fig:mean_std_no_channel_unetpp_fail}
@@ -58,7 +58,7 @@ Kompletní a obsáhlý přehled výsledků lokalizace také i mezi kanály můž
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{llllll}
+    \begin{tabular}{lrrrrr}
     \toprule
     Kanál & U-Net & U-Net++ bez HS & U-Net++ s HS & U-Net STN 3p & U-Net STN 6p \\
     \midrule

@@ -1,8 +1,10 @@
 \chapter{Závěr}
 \label{sec:Chapter7}
-Hlavním cílem této práce byla rešerše přístupů k lokalizaci klíčových bodů pomocí hlubokých neuronových sítí a následný pokus implementace vybraných modelů. Modely byly úspěšně implementovány pomocí knihovny a učícího API TensorFlow.
+Hlavním cílem této práce byla rešerše přístupů k lokalizaci klíčových bodů pomocí hlubokých neuronových sítí a následný pokus implementace vybraných modelů. Modely byly úspěšně implementovány pomocí knihovny a učícího API TensorFlow v jazyce Python 3.
 
-Práce byla zaměřena primárně na architektury hlubokých konvolučních neuronových sítí U-Net. Implementována byla síť U-Net a U-Net++. V rámci představení byl i vytvořen v rámci této práce model U-Net STN pro adresování spaciálních invariancí a vyzkoušení jeho výkonu na testovacích syntetických snímcích a reálných snímcích.
+Práce byla zaměřena primárně na architektury hlubokých konvolučních neuronových sítí U-Net. Implementována byla síť U-Net a U-Net++. Byl i vytvořen v rámci této práce model U-Net STN a vyzkoušení jeho výkonu na testovacích syntetických a reálných snímcích.
 
 Model U-Net dosáhl obstojných výsledků a představení modulu STN do sítě U-Net ukázalo zajímavé zlepšení zejména v přesnosti lokalizace. Obstojila si i síť s hlubší architekturou U-Net++ bez použití hluboké supervize, která dosáhla nejnižšího počtu falešných detekcí a průměru chyby lokalizace.
+
+Vybraný model U-Net STN s 6p. byl otestován na reálných snímcích a dosáhl uspokojivých hodnot až na občasné případy selhání detekce těchto reálných snímků. Tato práce dostatečně prozkoumává možnosti hlubokých sítí U-Net a prostorového transformeru STN, avšak existuje prostor pro zlepšení výkonu všech implementovaných sítí. Výsledky, i když uspokojivé, nepředstavují plný potenciál zkoumaných možností. Vylepšení v oblasti augmentace dat, tuningu architektury či jemných změn do fáze tréninku atd. jsou schopny zlepšit schopností implmenentovaných hlubokých sítí. 
 \endinput

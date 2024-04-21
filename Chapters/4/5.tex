@@ -37,7 +37,7 @@ Dense & ReLU & $n_{\theta}$ & - \\
 
 \subsection{Návrh vzorkového pole a vzorkovníku}
 
-V modulu STN je další následující částí generátor vzorkového pole. Generátor vzorkového pole má zodpovědnost generovat vzorkovou mapu $T_{\theta}(G)$ z jednotkové vzorkové mapy $T_{I}(G) = G$ (viz. obrázek \ref{fig:stn_grid}), která je v normalizovaném rozsahu $[-1, 1]$ pro určení středu souřadného systému do středu snímku. Vzorková mapa $T_{\theta}(G)$ se generuje pomocí matice $\displaystyle \mathrm {A}_\theta$. 
+V modulu STN je další následující částí generátor vzorkového pole. Generátor vzorkového pole má zodpovědnost generovat vzorkovou mapu $T_{\theta}(G)$ z jednotkové vzorkové mapy $T_{I}(G) = G$ (viz. obrázek \ref{fig:stn_grid}), která je v normalizovaném rozsahu <-1, 1> pro určení středu souřadného systému do středu snímku. Vzorková mapa $T_{\theta}(G)$ se generuje pomocí matice $\displaystyle \mathrm {A}_\theta$. 
 
 Výsledné vzorkové pole $T_{\theta}(G)$ následně vstupuje do vzorkovníku, který na vstupní snímek aplikuje pomocí bilineární interpolace finální transformaci, generující výstupní snímek pro síť U-Net.
 

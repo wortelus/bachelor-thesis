@@ -2,9 +2,9 @@
 \label{sec:Chapter47}
 Pro zpětnou propagaci všech našich modelů využíváme jako základní ztrátovou funkci střední kvadratickou chybu (MSE, Mean Squared Error), protože tato metoda penalizuje velké odchylky mezi predikovanými a skutečnými hodnotami.  V naších sítích aplikujeme globální průměrování (ang. reduce mean) s výpočtem MSE:
 \begin{equation}
-    loss(y_i, \hat{y}_i) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2,
+    loss(y_i, \hat{y}_i) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2 \,,
 \end{equation}
-kde $y_i$ je konkrétní hodnota z přímého průchodu sítě na pozici $i$, $\hat{y}_i$ je kontrolní hodnota na pozici $i$ aneb tzv. ground truth a $N$ je celkový počet hodnot na mapě příznaků. Kontroluje se vždy pouze daný výstupní kanál ze všech 11, to kvůli povaze informacím k datasetu popsaným v kapitole \ref{sec:Chapter31}. Ve fázi tréninku také můžeme síť trénovat na již zmíněných falešných snímcích, neobsahující klíčový bod dané třídy na odpovídajícím výstupní kanálu - zde můžeme trénovat opět pouze na daném kanálu, opět ze stejného důvodu jako při pravých snímcích.
+kde $y_i$ je konkrétní hodnota z přímého průchodu sítě na pozici $i$, $\hat{y}_i$ je kontrolní hodnota na pozici $i$ (aneb tzv. ground truth) a $N$ je celkový počet hodnot na mapě příznaků. Kontroluje se vždy pouze daný výstupní kanál ze všech 11, to kvůli povaze informacím k datasetu popsaným v kapitole \ref{sec:Chapter31}. Ve fázi tréninku také můžeme síť trénovat na již zmíněných falešných snímcích, neobsahující klíčový bod dané třídy na odpovídajícím výstupní kanálu - zde můžeme trénovat opět pouze na daném kanálu, opět ze stejného důvodu jako při pravých snímcích.
 
 \subsection{První návrh ztrátové funkce}
 
