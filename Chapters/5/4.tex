@@ -1,12 +1,12 @@
 \section{Průběh tréninku}
 \label{sec:Chapter54}
-Tréninky byly spouštěny ve stavech specifikovaných v kapitole \ref{sec:Chapter53} na stroji popsaném v kapitole \ref{sec:Chapter51}. Pro trénink byly v prostředí \texttt{Keras} použity zpětné volání a výstupy pro:
+Tréninky byly spouštěny ve stavech specifikovaných v kapitole \ref{sec:Chapter53} na stroji popsaném v kapitole \ref{sec:Chapter51}. Pro trénink byla v prostředí \texttt{Keras} použita zpětná volání a výstupy pro:
 \begin{itemize}
     \item Včasné zastavení pro případ nezlepšení výsledků validační ztráty mezi epochami, nastaveno na 3 epochy.
-    \item Ukládání snímku trénovatelných vah a gradientů z dosavadně nejlepší epochy dle validační ztráty - \texttt{best.ckpt}
-    \item Ukládání snímku trénovatelných vah a gradientů z poslední epochy dle validační ztráty - \texttt{cp.ckpt}
-    \item Zaznamenování trénovacích a validačních ztrátových hodnot
-    \item Trénovací a validační výstup pro nástroj \texttt{TensorBoard}
+    \item Ukládání snímku trénovatelných vah a gradientů z dosavadně nejlepší epochy dle validační ztráty -- \texttt{best.ckpt}.
+    \item Ukládání snímku trénovatelných vah a gradientů z poslední epochy dle validační ztráty -- \texttt{cp.ckpt}.
+    \item Zaznamenování trénovacích a validačních ztrátových hodnot.
+    \item Trénovací a validační výstup pro nástroj \texttt{TensorBoard}.
 \end{itemize}
-Během tréninku jsme díky použití několika verzí architektur sítí s úpravami ve ztrátových funkcích zastavovali model i manuálně při signifikantním nezlepšení ztrátové hodnoty. Ve všech případech byl pro výsledný model zvolen tzv. checkpoiint s nejlepší validační ztrátou.
+Během tréninku jsme kvůli použití několika verzí architektur sítí s úpravami ve ztrátových funkcích zastavovali model i manuálně při signifikantním nezlepšení ztrátové hodnoty. Ve všech případech byl pro výsledný model zvolen tzv. checkpoint s nejlepší validační ztrátou.
 \endinput

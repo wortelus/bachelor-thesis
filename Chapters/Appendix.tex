@@ -1,0 +1,58 @@
+\chapter{Adresářová struktura a spouštění projektu}
+Toto je kódová báze pro bakalářskou práci na téma ``Lokalizace klíčových bodů pomocí neuronových sítí''.
+
+\section{Adresářová struktura}
+\begin{itemize}
+    \item \texttt{data/} -- složka obsahující vstupní data (prvních 100 snímků z datasetu \texttt{default/test.csv})
+    \item \texttt{logs/} -- složka obsahující natrénované modely
+    \item \texttt{metrics/} -- složka obsahující metriky
+    \item \texttt{samples/} -- složka obsahující ukázková data
+    \item \texttt{src/} -- zdrojové kódy
+    \item \texttt{src/config/} -- konfigurační soubory
+    \item \texttt{src/models/} -- definice modelů
+    \item \texttt{src/plots} -- skripty pro vykreslování grafů
+    \item \texttt{src/processing/} -- skripty pro zpracování dat
+    \item \texttt{src/scripts/} -- pomocné skripty
+    \item \texttt{src/utils/} -- pomocné funkce
+    \item \texttt{src/start.py} -- hlavní skript pro spuštění
+    \item \texttt{src/dinov2} -- implementace modelu DINOV2
+\end{itemize}
+
+\section{Příprava prostředí}
+Před spouštením programu je potřeba nainstalovat závislosti pomocí příkazu:
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+Úplně na začátek je třeba ověřit cesty v \texttt{src/config/paths.py}.
+
+Model k trénování a ostatní parametry je třeba specifikovat a ověřit v \texttt{src/config}
+
+\section{Spouštění programu}
+Program se spouští pomocí skriptu \texttt{start.py}. Skript má:
+\begin{itemize}
+    \item první jednoslovný parametr pro výběr akce
+    \item povinný parametr \texttt{-o} pro výběr pracovní/výstupní složky. Tento parametr navazuje také i na cesty definované v \texttt{src/config/paths.py}
+\end{itemize}
+\begin{verbatim}
+python3 src/start.py inference -o .
+\end{verbatim}
+
+Během inference se vás skript zeptá na třídu a ID klíčového bodu.
+
+Vykreslování inference je interaktivní, \texttt{plt.show()} očekává cíl, např. pomocí IDE.
+
+\subsection{Možné akce}
+\begin{itemize}
+    \item \texttt{fit} -- natrénování modelu
+    \item \texttt{inference} -- inference modelu
+    \item \texttt{real} -- inference modelu na reálných datech
+    \item \texttt{false\_detections} -- metrika pro falešné detekce
+    \item \texttt{precision} -- metrika pro přesnost
+    \item \texttt{single} -- tvorba datasetu pro jeden klíčový bod
+    \item \texttt{partial} -- tvorba datasetu pro vybraný set klíčových bodů
+    \item \texttt{complete} -- tvorba datasetu pro všechny klíčové body
+    \item \texttt{convert} -- konverze checkpointu do modelu
+    \item \texttt{samples} -- tvorba ukázkových dat
+\end{itemize}
+
+\endinput

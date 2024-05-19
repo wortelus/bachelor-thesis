@@ -1,15 +1,15 @@
 \section{Augmentace dat}
 \label{sec:Chapter41}
-Pro účely trénování všech implementovaných neuronových sítí v této práci bylo využito augmentace trénovacích dat. Augmentace těchto snímků slouží pro představení náhodně upravených grafických odchylek během zpětné propagace sítě. Slouží pro syntetické zvětšení rozsahu datasetu a představení jistých neperfektních elementů. Tento častý přístup pak slouží k více robustní schopnosti sítě následně vykonávat svůj úkol na reálných snímcích. Identický postup augmentace dat je použit i během následných evaluacích modelů. Mezi tyto augmentace patří:
+Pro účely trénování všech implementovaných neuronových sítí v této práci byla využita augmentace trénovacích dat. Augmentace těchto snímků slouží pro představení náhodně upravených grafických odchylek během zpětné propagace sítě. Slouží pro syntetické zvětšení rozsahu datasetu a představení jistých neperfektních elementů. Tento častý přístup pak slouží k více robustní schopnosti sítě následně vykonávat svůj úkol na reálných snímcích. Identický postup augmentace dat je použit i během následných evaluacích modelů. Mezi tyto augmentace patří:
 \begin{enumerate}
-  \item \textbf{Barevnost} (ang. saturation) - úprava na základě odchylky max. 10 \% oproti původní hodnotě.
-  \item \textbf{Světelnost} (ang. brightness) - úprava na základě odchylky max. 10 \% oproti původní hodnotě.
-  \item \textbf{Barevná škála} (ang. hue) - úprava RGB škály na základě odchylky max. 5 \% oproti původní hodnotě.
-  \item \textbf{Gaussovo rozostření} - aplikováno pomocí následujícího rozdělení:
+  \item \textbf{Barevnost} (ang. saturation) -- úprava na základě odchylky max. 10 \% oproti původní hodnotě.
+  \item \textbf{Světelnost} (ang. brightness) -- úprava na základě odchylky max. 10 \% oproti původní hodnotě.
+  \item \textbf{Barevná škála} (ang. hue) -- úprava RGB škály na základě odchylky max. 5 \% oproti původní hodnotě.
+  \item \textbf{Gaussovo rozostření} -- aplikováno pomocí následujícího rozdělení:
   \begin{enumerate}
       \item 10\% šance na aplikování Gaussova rozostření pomocí filtru $3\times3$, $\sigma=$ 1,0
       \item 10\% šance na aplikování Gaussova rozostření pomocí filtru $5\times5$, $\sigma=$ 1,0
   \end{enumerate}
-  \item \textbf{Náhodný šum} - úprava pixelů o maximálně 3 \% (0,03) hodnoty $\sigma$ směrodatné odchylky.
+  \item \textbf{Náhodný šum} -- úprava pixelů o maximálně 3 \% (0,03) hodnoty $\sigma$ směrodatné odchylky.
 \end{enumerate}
 \endinput

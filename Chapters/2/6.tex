@@ -1,15 +1,15 @@
 \section{YOLOv8}
 \label{sec:Chapter26}
-YOLOv8 je jeden z posledních state-of-art přístupů pro lokalizaci, klasifikaci, segmentaci, detekci a dokonce také i tracking objektů představených v roce 2023 firmou Ultralytics. V době psaní tohoto textu je dostupná již i verze 8.1. Rodina skupiny YOLO, která je v poslední době velmi populární, se vyznačuje svou rychlostí a přesností, což ji udělalo skvělou volbou pro analýzu obrazu pomocí hlubokého učení. Každá verze se snažila vylepšit nedostatky nebo zlepšit ostatní parametry svých předchůdců. YOLOv8 (včetně jeho vylepšení jako verze 8.1) je v současné době poslední verzí a nebyla vydána oficiální dokumentace představující vývoj a funkcionalitu, avšak YOLOv8 se uchytil již například v \cite{yoloplane} pro detekci a klasifikaci letadel či dronů. Existuje hned několik velikostí tohoto modelu:
+YOLOv8 je jeden z posledních state-of-art přístupů pro lokalizaci, klasifikaci, segmentaci, detekci a dokonce také i tracking objektů představených v roce 2023 firmou Ultralytics. V době psaní tohoto textu je dostupná již i verze 8.1 a 9. Rodina skupiny YOLO, která je v poslední době velmi populární, se vyznačuje svou rychlostí a přesností, což ji udělalo skvělou volbou pro analýzu obrazu pomocí hlubokého učení. Každá verze se snažila vylepšit nedostatky nebo zlepšit ostatní parametry svých předchůdců. YOLOv8 (včetně jeho vylepšené verze 8.1) je v současné době jednou z posledních verzí a nebyla vydána oficiální dokumentace představující vývoj a funkcionalitu, avšak YOLOv8 se uchytil již například v \cite{yoloplane} pro detekci a klasifikaci letadel či dronů. Existuje hned několik velikostí tohoto modelu:
 \begin{enumerate}
-  \item YOLOv8n -- nejmenší (nano), 3.2 M parametrů
-  \item YOLOv8s -- malý (small), 11.2 M parametrů
-  \item YOLOv8m -- střední (medium), 25.9 M parametrů
-  \item YOLOv8l -- velký (large), 43.7 M parametrů
-  \item YOLOv8xl -- extra velký (extra large), 68.2 M parametrů
+  \item YOLOv8n -- nejmenší (nano), 3,2 M parametrů
+  \item YOLOv8s -- malý (small), 11,2 M parametrů
+  \item YOLOv8m -- střední (medium), 25,9 M parametrů
+  \item YOLOv8l -- velký (large), 43,7 M parametrů
+  \item YOLOv8xl -- extra velký (extra large), 68,2 M parametrů
 \end{enumerate}
 
-YOLOv8 je nejlépe srovnatelná s předchůdcem YOLOv5, který byl také vydaný stejnojmennou firmou (stejně také i verzi 1 či 3). Používá Darknet53 \cite{darknet} jako základ pro svou první část své architektury s několika změnami. Darknet53 se vyznačuje reziduálními bloky a malými velikostmi filtrů. Další části jsou krk a hlava. Krk propojuje základ a hlavu zlepšující zachycení informací na různých škálách. Hlava je finální část a ve verzi 8 je oddělená pro zpracování dané úlohy separátně pro každou úlohu. Verze 8 také navazuje na trend posledních let nemívat kotvy ve své architektuře, což jsou boxy s předdefinovaou velikostí sloužící k prototypové detekci objektů \cite{yolo_comparison}.
+YOLOv8 je nejlépe srovnatelná s předchůdcem YOLOv5, který byl také vydaný stejnojmennou firmou (stejně také i verzi 1 či 3). Používá Darknet53 \cite{darknet} jako základ pro svou první část své architektury s několika změnami. Darknet53 se vyznačuje reziduálními bloky a malými velikostmi filtrů. Další části jsou krk a hlava. Krk propojuje základ a hlavu zlepšující zachycení informací na různých škálách. Hlava je finální část a ve verzi 8 je oddělená pro zpracování dané úlohy separátně pro každou úlohu. Verze 8 také navazuje na trend posledních let nemívat kotvy ve své architektuře, což jsou boxy s předdefinovanou velikostí sloužící k prototypové detekci objektů \cite{yolo_comparison}.
 
 
 \endinput

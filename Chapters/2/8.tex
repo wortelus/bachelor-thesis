@@ -1,15 +1,15 @@
 \section{Transformer STN}
 \label{sec:Chapter28}
 
-Architektura STN je jedním z možných přístupů jak představit spaciální invarianci do klasických konvolučních neuronových sítí představená v literatuře \cite{stn} roku 2015. Klasické konvoluční neuronové sítě pomocí svých vrstev typu max pooling\footnote{v síti U-Net nacházející se v enkodéru.} tvoří jistou spaciální invarianci proti různým změnám perspektivy, avšak pouze limitovaně. Výrazné transformace vstupního obrazu mívá detrimentální účinek na výslednou robustnost sítě.
+Architektura STN je jedním z možných přístupů, jak představit prostorovou invarianci do klasických konvolučních neuronových sítí. Byla představena v literatuře \cite{stn} roku 2015. Klasické konvoluční neuronové sítě pomocí svých vrstev typu max pooling\footnote{v síti U-Net nacházející se v enkodéru.} tvoří jistou prostorovou invarianci proti různým změnám perspektivy, avšak pouze limitovaně. Výrazné transformace vstupního obrazu mívají detrimentální účinek na výslednou robustnost sítě.
 
-Pro adresování této limitace týkající se prostorové invariance vznikla neuronová síť s prostorovým transformerem -- \textbf{STN (ang. Spatial Transformer Network)}. Z původního hlediska se často nejedná o hotové řešení, avšak o diferenciovatelný modul schopný být přidán do již existující architektury konvolučních neuronových sítí pro zvýšení odolnosti proti těmto prostorovým změnám a transformacím. Oproti klasickým vrstvám typu max pooling je tato síť schopna se naučit a aktivně transformovat vstupní obraz. Modul také díky své diferenciovatelnosti může být triviálně natrénován pomocí klasické zpětné propagace. Modul STN sestává z několika částí (viděných na obrázku \ref{fig:stn_overview}):
+Pro řešení této limitace týkající se prostorové invariance vznikla neuronová síť s prostorovým transformerem -- \textbf{STN (ang. Spatial Transformer Network)}. Z původního hlediska se často nejedná o hotové řešení, avšak o diferenciovatelný modul schopný být přidán do již existující architektury konvolučních neuronových sítí pro zvýšení odolnosti proti těmto prostorovým změnám a transformacím. Oproti klasickým vrstvám typu max pooling je tato síť schopna se naučit a aktivně transformovat vstupní obraz. Modul také díky své diferenciovatelnosti může být triviálně natrénován pomocí klasické zpětné propagace. Modul STN sestává z několika částí (viděných na obrázku \ref{fig:stn_overview}):
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth,keepaspectratio]{Figures/stn/stn_module.pdf}
 \caption[Zjednodušený pohled na STN modul]
-{Zjednodušený pohled na STN modul, kde $U$ je vstupní obraz a $V$ je výstupní obraz. Lokalizační síť provádí regresi transformačních parametrů $\theta$, která je pak využita pro generaci vzorkového pole. Příkladná vizualizace vzorkového pole, a jeho použití ve vzorkovníku, je znázorněna na obrázku \ref{fig:stn_grid}. Převzato z \cite{stn} a upraveno. }
+{Zjednodušený pohled na STN modul, kde $U$ je vstupní obraz a $V$ je výstupní obraz. Lokalizační síť provádí regresi transformačních parametrů $\theta$, která je pak využita pro generování vzorkového pole. Příkladná vizualizace vzorkového pole, a jeho použití ve vzorkovníku, je znázorněna na obrázku \ref{fig:stn_grid}. Převzato z \cite{stn} a upraveno. }
 \label{fig:stn_overview}
 \end{figure}
 
@@ -17,7 +17,7 @@ Pro adresování této limitace týkající se prostorové invariance vznikla ne
 
 První částí je \textbf{lokalizační síť} (ang. localization net). Právě tato část modulu je jako jediná trénovatelná. Vstupem do lokalizační sítě může být jakýkoli n-kanálový obraz či mapa příznaků. Výstup lokalizační sítě jsou parametry $\theta$ společné pro všechny kanály vstupního snímku. Architektura sítě není striktně dána, může být postavena jak na CNN nebo FCN za předpokladu, že finální část sítě bude uzpůsobena pro regresi parametrů afinní transformace $\theta$ reprezentovanou v matici ${\displaystyle \mathrm {A} }_\theta$.
 
-Matice ${\displaystyle \mathrm {A} }_\theta$ může nabírat několika forem. Prvním klasickým přístupem může být následující matice $2\times3$:
+Matice ${\displaystyle \mathrm {A} }_\theta$ může nabývat několika forem. Prvním klasickým přístupem může být následující matice $2\times3$:
 \begin{equation}
     {\displaystyle \mathrm {A} }_\theta = 
     \begin{bmatrix}
@@ -26,7 +26,7 @@ Matice ${\displaystyle \mathrm {A} }_\theta$ může nabírat několika forem. Pr
     \end{bmatrix}
     \label{eq:stn_6_theta}
 \end{equation}
-pro translaci, rotaci, škálování a zkosení podél os. Matice ${\displaystyle \mathrm {A} }_\theta$ avšak může nabírat i více podob, jako např. 12-člennou matici $4\times3$ pro 3D afinní transformace nebo následující poupravenou afinní 2D matici pro prostorovou pozornost, umožňující translaci, izotropní škálování a ořezávání:
+pro translaci, rotaci, škálování a zkosení podél os. Matice ${\displaystyle \mathrm {A} }_\theta$ avšak může nabývat i více podob, jako např. 12člennou matici $4\times3$ pro 3D afinní transformace nebo následující poupravenou afinní 2D matici pro prostorovou pozornost, umožňující translaci, izotropní škálování a ořezávání:
 
 \begin{equation}
     {\displaystyle \mathrm {A} }_\theta = 
@@ -37,11 +37,11 @@ pro translaci, rotaci, škálování a zkosení podél os. Matice ${\displaystyl
     \label{eq:stn_3_theta}
 \end{equation}
 
-Ořezávání je dosaženo s pomocí levé $2\times2$ strany matice ${\displaystyle \mathrm {A} }_\theta$ zapsanou jako ${\displaystyle \mathrm {A'} }_\theta$. Pokud platí, že $determinant({\displaystyle \mathrm {A'} }_\theta) < 1.0$, pak je výsledná plocha transformace menší než plocha originálního vstupu a vzorkové pole se soustředí pouze na jistou část snímku, což vede k lokálnější prostorové pozornosti.
+Ořezávání je dosaženo s pomocí levé $2\times2$ strany matice ${\displaystyle \mathrm {A} }_\theta$ zapsanou jako ${\displaystyle \mathrm {A'} }_\theta$. Pokud platí, že $determinant({\displaystyle \mathrm {A'} }_\theta) < 1$, pak je výsledná plocha transformace menší než plocha originálního vstupu a vzorkové pole se soustředí pouze na jistou část snímku, což vede k lokálnější prostorové pozornosti.
 
 \subsection{Generátor vzorkového pole}
 
-Výstup lokalizační sítě, matice ${\displaystyle \mathrm {A} }_\theta$, pak následuje do další části modulu STN - \textbf{generátoru vzorkového pole} (v originální ang. podobě grid generator). Generátor vzorkového pole generuje 2-složkové pole, které aplikuje parametry afinní transformace ${\displaystyle \mathrm {A} }_\theta$. K tomu se využívá způsob inverzního mapování.
+Výstup lokalizační sítě, matice ${\displaystyle \mathrm {A} }_\theta$, pak následuje do další části modulu STN -- \textbf{generátoru vzorkového pole} (v originální ang. podobě grid generator). Generátor vzorkového pole generuje dvousložkové pole, které aplikuje parametry afinní transformace ${\displaystyle \mathrm {A} }_\theta$. K tomu se využívá způsob inverzního mapování.
 
 \begin{figure}[h]
 \centering
@@ -52,7 +52,7 @@ Výstup lokalizační sítě, matice ${\displaystyle \mathrm {A} }_\theta$, pak 
 \label{fig:stn_grid}
 \end{figure}
 
-Inverzní mapování je často použito oproti přímému mapování, které nefunguje dobře díky přesahům a mezerám, které zanechá při mapování ve výsledném snímku. Inverzní mapování bývá standardním postupem v praxi při podobných úlohách počítačového vidění \cite{stn_medium_1}. Inverzní mapování v kontextu STN ve 2D prostoru může být (identicky jako v originální literatuře \cite{stn}) definováno takto:
+Inverzní mapování je často použito oproti přímému mapování, jenž nefunguje dobře díky přesahům a mezerám, které zanechá při mapování ve výsledném snímku. Inverzní mapování bývá standardním postupem v praxi při podobných úlohách počítačového vidění \cite{stn_medium_1}. Inverzní mapování v kontextu STN ve 2D prostoru může být (identicky jako v originální literatuře \cite{stn}) definováno takto:
 
 \begin{equation}
 \begin{pmatrix}
@@ -77,7 +77,7 @@ y_i^t \\
 \end{pmatrix},
 \label{eq:stn_inverse}
 \end{equation}
-kde $(x_i^s, y_i^s)$ je daná pozice na původním obrazu, kterou počítáme pomocí funkce inverzního mapování na základě transformovaného vzorkového pole $T_{\theta}(G)$. To lze vyjádřit jako násobení matice ${\displaystyle \mathrm {A} }_\theta$ a cílové pozice v homogenní formě $(x_i^t, y_i^t, 1)$. Výsledkem použití inverzního mapování (ve funkci \ref{eq:stn_inverse}) je vzorkové pole reprezentované také jako 2D 2-složkové pole či dvě 2D skalární pole pro osy $(x, y)$.
+kde $(x_i^s, y_i^s)$ je daná pozice na původním obrazu, kterou počítáme pomocí funkce inverzního mapování na základě transformovaného vzorkového pole $T_{\theta}(G)$. To lze vyjádřit jako násobení matice ${\displaystyle \mathrm {A} }_\theta$ a cílové pozice v homogenní formě $(x_i^t, y_i^t, 1)$. Výsledkem použití inverzního mapování (ve funkci \ref{eq:stn_inverse}) je vzorkové pole reprezentované také jako 2D dvousložkové pole či dvě 2D skalární pole pro osy $(x, y)$.
 
 \subsection{Vzorkovník}
 

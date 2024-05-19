@@ -14,13 +14,13 @@ V grafu \ref{fig:nets_false_detections} je k povšimnutí hned několik zajímav
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{llllllllll}
+    \begin{tabular}{lrrrrrrrr}
     \toprule
-    & 0.2 & 0.3 & 0.4 & 0.5 & 0.6 & 0.7 & 0.8 & 0.9 \\
+    Síla detekce & 0,2 & 0,3 & 0,4 & 0,5 & 0,6 & 0,7 & 0,8 & 0,9 \\
     \midrule
     U-Net & 59 & 39 & 30 & 24 & 18 & 12 & 5 & 3 \\
-    U-Net++ bez HS & 27 & 15 & 10 & 9 & 7 & 3 & 3 & 0 \\
-    U-Net++ s HS & 149 & 113 & 92 & 75 & 55 & 39 & 24 & 8 \\
+    U-Net++ bez HS & \textbf{27} & \textbf{15} & \textbf{10} & \textbf{9} & \textbf{7} & \textbf{3} & \textbf{3} & \textbf{0} \\
+    U-Net++ s HS & \textbf{149} & \textbf{113} & \textbf{92} & \textbf{75} & \textbf{55} & \textbf{39} & \textbf{24} & \textbf{8} \\
     U-Net STN 3-parametrový & 67 & 44 & 38 & 33 & 29 & 23 & 15 & 9 \\
     U-Net STN 6-parametrový & 44 & 35 & 29 & 20 & 14 & 12 & 9 & 4 \\
     \bottomrule
@@ -29,7 +29,7 @@ V grafu \ref{fig:nets_false_detections} je k povšimnutí hned několik zajímav
     \label{tab:false_detections}
 \end{table}
 
-Na základě předvedených dat můžeme vidět, že síť \textbf{U-Net++ bez supervize} dosahuje nejlepších výsledků, kde dokonce nad hodnotu 0,9 nevidíme žádné falešné detekce. Model U-Net a U-Net STN s 6 parametry následují na druhém místě.  K povšimnutí je avšak zajímavé zhoršení  U-Net STN s 3 p. Také i verze s 6 p. na jistých milnících vykazuje horší výsledky oproti původní síti U-Net, avšak jen mírně.
+Na základě naměřených dat můžeme vidět, že síť \textbf{U-Net++ bez supervize} dosahuje nejlepších výsledků, kde dokonce nad hodnotu 0,9 nevidíme žádné falešné detekce. Modely U-Net a U-Net STN s 6 parametry následují na druhém místě.  K povšimnutí je zajímavé zhoršení U-Net STN s 3 parametry. Také i verze s 6 parametry na jistých milnících vykazuje horší výsledky oproti původní síti U-Net, avšak jen mírně.
 
-Taky můžeme vidět, že počet falešných detekcí má lineární převahu v rozsahu <0,2; 0,9> síly lokalizace, od hodnoty 0,2 nastává průlom.
+Taky můžeme vidět, že počet falešných detekcí má lineární převahu v rozsahu $\langle$0,2; 0,9$\rangle$ síly lokalizace, od hodnoty 0,2 nastává průlom.
 \endinput

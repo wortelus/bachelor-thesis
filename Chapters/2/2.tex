@@ -1,16 +1,16 @@
 \section{U-Net}
 \label{sec:Chapter22}
 
-\textbf{U-Net} je architektura CNN poprvé představena v roce 2015 v literatuře \cite{unet}. Jedná se o architekturu konvoluční neuronové sítě hojně využívanou pro segmentační úlohy, avšak je používána i pro lokalizační, klasifikační a další problémy analýzy obrazu \cite{unet_success}. Architektura sítě U-Net spočívá ve třech sémantických částí, kde každá část zaznamenává jiné typy informací získaných z vstupních obrazů - enkodér, krk (ang. bottleneck) a dekodér. Závěrečná čtvrtá vrstva je specificky navržena a uzpůsobena pro konkrétní úkol, pro který je síť navržena.
+\textbf{U-Net} je architektura CNN poprvé představena v roce 2015 v literatuře \cite{unet}. Jedná se o architekturu konvoluční neuronové sítě hojně využívanou pro segmentační úlohy, avšak je používána i pro lokalizační, klasifikační a další problémy analýzy obrazu \cite{unet_success}. Architektura sítě U-Net spočívá ve třech sémantických částech, kde každá část zaznamenává jiné typy informací získaných ze vstupních obrazů -- enkodér, krk (ang. bottleneck) a dekodér. Závěrečná čtvrtá vrstva je specificky navržena a uzpůsobena pro konkrétní úkol, pro který je síť navržena.
 
-\subsection{Stavba CNN sítě}
+\subsection{Architektura sítě}
 \label{subsec:Chapter221}
 
-\textbf{Enkodér} sestává ze sémantických vrstev konvolučních bloků, kde každou sémantickou vrstvou sítě se zdvojnásobuje počet filtrů a rozměr obrazu se naopak dělí dvěma pomocí $2\times2$ max pooling vrstev na koncích bloků enkodéru. Cílem enkodéru je zachytit kontextuální rysy vstupního obrazu \cite{unet_success}.
+\textbf{Enkodér} je tvořen sémantickými vrstvami konvolučních bloků, kde s každou sémantickou vrstvou sítě se zdvojnásobuje počet filtrů a rozměr obrazu se naopak dělí dvěma pomocí $2\times2$ max pooling vrstev na koncích bloků enkodéru. Cílem enkodéru je zachytit kontextuální rysy vstupního obrazu \cite{unet_success}.
 
-\textbf{Krk (ang. bottleneck)} je prvek uprostřed sítě U-Net, která propojuje enkodér na jeho konci a dekodér na jeho počátku. Tato část sítě obsahuje nejmenší velikost obrazu, zato maximální počet filtrů v konvolučních vrstvách.
+\textbf{Krk (ang. bottleneck)} je prvek uprostřed sítě U-Net, který propojuje enkodér na jeho konci a dekodér na jeho počátku. Tato část sítě obsahuje nejmenší velikost obrazu, zato maximální počet filtrů v konvolučních vrstvách.
 
-\textbf{Dekodér} je symetrická složka k enkodéru, kde každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstup z předchozího bloku předchází $2\times2$ vrstva, v orig. lit. označená jako \enquote{up-convolution}. Ve skutečnosti se jedná o vrstvu $2\times2$ typu up-sampling následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
+\textbf{Dekodér} je symetrická složka k enkodéru, kde s každou sémantickou vrstvou sítě se počet filtrů naopak dělí dvěma. Vstup z předchozího bloku předchází $2\times2$ vrstva, v orig. lit. označená jako \enquote{up-convolution}. Ve skutečnosti se jedná o vrstvu $2\times2$ typu up-sampling následovanou $2\times2$ konvoluční vrstvou. Dekodér zachycuje vysoko-úrovňovější rysy a také je zodpovědný za finální lokalizaci \cite{unet_success}.
 
 \begin{figure}[H]
 \centering
@@ -144,24 +144,24 @@
 
 \end{figure}
 
-Všechny tyto 3 extrační části zpravidla obsahují dvě $3\times3$ konvoluční vrstvy. Původně v orig. lit. s odsazením typu valid padding a (1, 1) krokem (ang. stride). Mívají ReLU aktivační funkcí, obdobně jako v původní architektuře \cite{unet}. Postupem síť U-Net zlepšuje své receptivní pole, a v hlubších vrstvách se zlepšuje v zachycování sémantických a kontextuálních informací. Ovšem postupem síť také ztrácí lokalizační informace, pro které byly do sítě U-Net přidány také skokové propojení (tj. skip connection) mezi odpovídajícími vrstvami enkodéru a dekodéru \cite{unet_success}.
+Všechny tyto 3 extrakční části zpravidla obsahují dvě $3\times3$ konvoluční vrstvy. Původně v orig. lit. s odsazením typu valid padding a (1, 1) krokem (ang. stride). Jako aktivační funkce bývá často využita funkce ReLU, obdobně jako v původní architektuře \cite{unet}. Postupem síť U-Net zvětšuje své receptivní pole, a v hlubších vrstvách se zlepšuje v zachycování sémantických a kontextuálních informací. Ovšem postupem síť také ztrácí lokalizační informace, pro které byly do sítě U-Net přidány také skokové propojení (tj. skip connection) mezi odpovídajícími vrstvami enkodéru a dekodéru \cite{unet_success}.
 
-Těmito fundamentálními částmi sítě U-Net vzniká vizuální podoba písmena 'U', odkud pochází název sítě. Velikost sítě U-Net díky své symetrické a sémanticky jednoznačné architektuře může být zmenšena či zvětšena. Například v obrázku \ref{fig:unetdiagram} je síť sestavena ze 3 bloku enkodéru a dekodéru, avšak často se používá i velikost se 4 bloky (jako např. v originální literatuře \cite{unet}) nebo jiným počtem.
+Těmito fundamentálními částmi sítě U-Net vzniká vizuální podoba písmena U, odkud pochází název sítě. Velikost sítě U-Net díky své symetrické a sémanticky jednoznačné architektuře může být zmenšena či zvětšena. Například v obrázku \ref{fig:unetdiagram} je síť sestavena ze 3 bloku enkodéru a dekodéru, avšak často se používá i velikost se 4 bloky (jako např. v originální literatuře \cite{unet}) nebo jiným počtem.
 
-\subsection{Výstup CNN sítě}
+\subsection{Výstup sítě}
 \label{subsec:Chapter222}
 
 Na konci sítě U-Net se nachází výstupní vrstva s několika filtry. Počet těchto filtrů odpovídá počtu tříd, které chceme v obrázku segmentovat. V případě binární segmentace (obdobně jako na obrázku \ref{fig:unetdiagram}), kde rozlišujeme mezi popředím a pozadím, se používají 2 filtry. Každý z těchto filtrů produkuje mapu pravděpodobností pro jednotlivé třídy.
 
-Následně se aplikuje softmax funkce na výstupy těchto filtrů. Softmax je použit proto, aby se výstupy převedly na spojitou pravděpodobnostní distribuci, která umožňuje jednoznačně určit, zda pixel patří do popředí nebo pozadí. Softmax zajistí, že součet pravděpodobností pro každý pixel a pro všechny třídy bude roven 1, což umožňuje interpretovat výstupy jako pravděpodobnostní příslušnosti k jednotlivým třídám.
+Následně se aplikuje softmax funkce na výstupy těchto filtrů. Softmax je použit proto, aby se výstupy převedly na spojitou pravděpodobnostní distribuci, která umožňuje jednoznačně určit, zda pixel patří do popředí nebo pozadí. Softmax zajistí, že součet pravděpodobností pro každý pixel a pro všechny třídy bude roven 1, což umožňuje interpretovat výstupy jako pravděpodobnost příslušnosti k jednotlivým třídám.
 
-Je důležité poznamenat, že v případě více než dvou tříd segmentace se počet filtrů na konci U-Net odpovídajícím způsobem zvýší, aby každá třída měla svůj vlastní filtr. Následně se pro trénink sítí pro podobné segmentační úlohy, ať už binární nebo několika třídové, používají například ztrátové funkce z řad cross-entropy \cite{unet}.
+Je důležité poznamenat, že v případě více než dvou tříd segmentace se počet filtrů na konci U-Net odpovídajícím způsobem zvýší, aby každá třída měla svůj vlastní filtr. Následně se pro trénink sítí pro podobné segmentační úlohy, ať už binární nebo vícetřídní, používají například ztrátové funkce z řad cross-entropy \cite{unet}.
 
 \subsection{Využití}
 \label{subsec:Chapter223}
 
-U-Net se stal hojně používanou architekturou, kterou dnes můžeme nalézt i např. v biomedicínském inženýrství \cite{unet_success} nebo i difuzních modelech pro syntézi vysoko-rozměrových obrázků \cite{stablediffusion}.
+U-Net se stal hojně používanou architekturou, kterou dnes můžeme nalézt i např. v biomedicínském inženýrství \cite{unet_success} nebo i v difuzních modelech pro syntézi vysoko-rozměrových obrázků \cite{stablediffusion}.
 
-Za rok 2022 se sítě U-Net oproti předchozím letům velmi rozšířily a např. v medicíně byly využity převážně pro segmentaci a klasifikaci. Avšak sítě U-Net byly schopny být aplikovány i na podobné problémy počítačového vidění, které zahrnují, ale neomezují se na rekonstrukce, detekce, deformační obrazová registrace\footnote{Problém mapovaní/transformace lehce deformovaného či posunutého obrazu na obraz druhý \cite{unet_registration}.}, odšumění či další. V roce 2022 dle zmíněné literatury bylo ocitováno téměř 3 tisíce vědeckých článků za rok, což je například trojnásobně vyšší počet než před dvěma lety v roce 2020 \cite{unet_success}.
+Za rok 2022 se sítě U-Net oproti předchozím letům velmi rozšířily a např. v medicíně byly využity převážně pro segmentaci a klasifikaci. Avšak sítě U-Net byly aplikovány také na obdobné problémy počítačového vidění včetně rekonstrukce, detekce, deformační obrazové registrace\footnote{Problém mapovaní/transformace lehce deformovaného či posunutého obrazu na obraz druhý \cite{unet_registration}.}, odšumění či dalších. V roce 2022 dle literatury \cite{unet_success} bylo ocitováno téměř 3 tisíce vědeckých článků za rok, což je trojnásobně vyšší počet než před dvěma lety v roce 2020.
 
 \endinput

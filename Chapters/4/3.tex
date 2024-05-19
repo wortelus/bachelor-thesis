@@ -1,6 +1,6 @@
 \section{Řešení pomocí sítě U-Net}
 \label{sec:Chapter43}
-Jako náš první základní model volíme síť standardní U-Net architektury navazující na původní architekturu představenou v \cite{unet}. Pro naši architekturu jsme zvolili přístup 4 bloků jak enkodéru, tak symetricky i dekodéru. Počet filtrů v počátečním bloku enkodéru a finálním bloku dekodéru máme nastaveno na 32 a krk sítě U-Net tedy odvozeně obsahuje 512 filtrů. 
+Jako náš první základní model volíme síť standardní U-Net architektury navazující na původní architekturu představenou v \cite{unet}. Byl zvolen přístup 4 bloků jak enkodéru, tak symetricky i dekodéru. Architektura může být znázorněna pomocí následující tabulky \ref{fig:model_architecture}:
 
 \begin{table}[ht]
 \centering
@@ -28,11 +28,11 @@ $2\times$ Conv2D+BN+ReLU & 32 & $3 \times 3$ \\
 Conv2D+Sigmoid & 11 & $1 \times 1$ \\
 \bottomrule
 \end{tabular}
-\caption[Konvoluční a pooling vrstvy implementace sítě U-Net]{Konvoluční a pooling vrstvy implementace sítě U-Net, kde Conv2D je konvoluční operace a BN je zkratkou pro dávkovou normalizaci (ang. batch normalization) }
+\caption[Konvoluční a pooling vrstvy implementace sítě U-Net]{Konvoluční a pooling vrstvy implementace sítě U-Net, kde Conv2D je konvoluční operace a BN je zkratkou pro dávkovou normalizaci (ang. batch normalization). }
 \label{fig:model_architecture}
 \end{table}
 
-Ve finále tato síť bez parametrů optimizéru či uložených gradientů dosahuje velikosti 7 852 875 parametrů, neboli okolo 30 MB.
+Ve finále tato síť bez parametrů optimizéru či uložených gradientů dosahuje velikosti 7 852 875 parametrů (okolo 30 MB).
 
 
 \endinput
